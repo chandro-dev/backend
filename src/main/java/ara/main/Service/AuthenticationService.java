@@ -5,6 +5,7 @@ import ara.main.Dto.AuthenticationResponse;
 import ara.main.Entity.persons;
 import ara.main.Repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
@@ -37,5 +38,19 @@ public class AuthenticationService {
         extraClaims.put("name", persons.getName());
         extraClaims.put("role", persons.getRole().name());
         return extraClaims;
+    }
+
+    public ResponseEntity<String> register(persons _person){
+        try {
+            if (personRepository.existsByUsername(_person.getUsername())){
+                return ResponseEntity.badRequest().body("Ya existe ese nombre de usuario");
+            }
+            personRepository.save(_person);
+            return ResponseEntity.ok("Tu puta madre");
+        }
+        catch(Exception e){
+
+            return ResponseEntity.badRequest().body(e.toString());
+        }
     }
 }
