@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -15,6 +16,8 @@ import java.util.Map;
 
 @Service
 public class AuthenticationService {
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
@@ -43,10 +46,14 @@ public class AuthenticationService {
     public ResponseEntity<String> register(persons _person){
         try {
             if (personRepository.existsByUsername(_person.getUsername())){
+
                 return ResponseEntity.badRequest().body("Ya existe ese nombre de usuario");
             }
+            //Enconded password
+            String encodedPassword = passwordEncoder.encode(_person.getPassword());
+            _person.setPassword(encodedPassword);
             personRepository.save(_person);
-            return ResponseEntity.ok("Guardado Correctamente");
+            return ResponseEntity.ok("El usuario fue registrado con exito");
         }
         catch(Exception e){
 
