@@ -46,7 +46,7 @@ public class AuthenticationService {
                 return ResponseEntity.badRequest().body("Ya existe ese nombre de usuario");
             }
             personRepository.save(_person);
-            return ResponseEntity.ok("Tu puta madre");
+            return ResponseEntity.ok("Guardado Correctamente");
         }
         catch(Exception e){
 
