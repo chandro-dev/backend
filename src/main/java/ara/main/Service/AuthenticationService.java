@@ -53,7 +53,11 @@ public class AuthenticationService {
             String encodedPassword = passwordEncoder.encode(_person.getPassword());
             _person.setPassword(encodedPassword);
             personRepository.save(_person);
-            return ResponseEntity.ok("El usuario fue registrado con exito");
+<<<<<<< HEAD
+            return ResponseEntity.ok("El usuario fue");
+=======
+            return ResponseEntity.ok("Guardado Correc");
+>>>>>>> 41ac661 (ServicioAutenticacion)
         }
         catch(Exception e){
 
