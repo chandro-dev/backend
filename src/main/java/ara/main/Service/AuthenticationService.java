@@ -2,8 +2,8 @@ package ara.main.Service;
 
 import ara.main.Dto.AuthenticationRequest;
 import ara.main.Dto.AuthenticationResponse;
-import ara.main.Entity.persons;
-import ara.main.Repository.PersonRepository;
+import ara.main.Entity.PersonEntities.persons;
+import ara.main.Repositories.UserRepository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -53,11 +53,7 @@ public class AuthenticationService {
             String encodedPassword = passwordEncoder.encode(_person.getPassword());
             _person.setPassword(encodedPassword);
             personRepository.save(_person);
-<<<<<<< HEAD
-            return ResponseEntity.ok("El usuario fue");
-=======
-            return ResponseEntity.ok("Guardado Correc");
->>>>>>> 41ac661 (ServicioAutenticacion)
+            return ResponseEntity.ok("El usuario fue registrado con exito");
         }
         catch(Exception e){
 
