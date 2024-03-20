@@ -20,8 +20,5 @@ public class AuthenticationController {
         return ResponseEntity.ok(jwtDto);
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody @Valid persons authRequest){
-        return authenticationService.register(authRequest);
-    }
+
 }
