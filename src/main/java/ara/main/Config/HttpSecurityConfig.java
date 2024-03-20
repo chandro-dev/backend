@@ -29,6 +29,8 @@ public class HttpSecurityConfig {
                 .authorizeHttpRequests(authConfig -> {
                     //Metodos publicos
                     authConfig.requestMatchers(HttpMethod.POST,"/auth/**").permitAll();
+                    authConfig.requestMatchers(HttpMethod.POST,"/personas/**").permitAll();
+                    authConfig.requestMatchers(HttpMethod.GET,"/personas/**").permitAll();
                     authConfig.requestMatchers(HttpMethod.GET,"/auth/public-access").permitAll();
                     authConfig.requestMatchers("/error").permitAll();
 

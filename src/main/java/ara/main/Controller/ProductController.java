@@ -1,9 +1,27 @@
 package ara.main.Controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import ara.main.Entity.Product;
+import ara.main.Entity.persons;
+import ara.main.Service.ProductService;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/Product")
 public class ProductController {
+    @Autowired
+    private ProductService productService;
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody @Valid Product authRequest){
+        System.out.println("Hola");
+        return productService.register(authRequest);
+    }
+    @GetMapping()
+    public ResponseEntity<List<Product>> getAll(){
+        return  productService.getAll();
+    }
 }
