@@ -24,7 +24,7 @@ public class DatabaseConfig {
     @Primary
     @Bean(name = "firstDataSource")
     public DataSource firstDataSource() {
-        return DataSourceBuilder.create().url("jdbc:postgresql://10.0.0.11:5432/personas")
+        return DataSourceBuilder.create().url("jdbc:postgresql://192.168.1.58:5432/personas")
                 .username("root").password("root")
                 .driverClassName("org.postgresql.Driver").build();
     }
@@ -52,7 +52,7 @@ public class DatabaseConfig {
         // Métodos para configurar la segunda base de datos
         @Bean(name = "secondDataSource")
         public DataSource secondDataSource() {
-            return DataSourceBuilder.create().url("jdbc:postgresql://10.0.0.11:5432/inventory")
+            return DataSourceBuilder.create().url("jdbc:postgresql://192.168.1.58:5432/inventory")
                     .username("root").password("root")
                     .driverClassName("org.postgresql.Driver").build();
         }
