@@ -1,6 +1,8 @@
 package ara.main.Config;
 
+
 import ara.main.Repository.PersonasRepository.PersonRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
