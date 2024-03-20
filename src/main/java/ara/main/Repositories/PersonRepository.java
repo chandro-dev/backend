@@ -1,12 +1,12 @@
-package ara.main.Repositories.UserRepository;
+package ara.main.Repositories;
 
-import ara.main.Entity.PersonEntities.persons;
+import ara.main.Entity.persons;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 @Repository
-public interface PersonRepository extends JpaRepository<persons,Long> {
+public interface PersonRepository extends JpaRepository<persons,String> {
     Optional<persons> findByUsername(String username);
     Boolean existsByUsername(String username);
 }

@@ -1,7 +1,7 @@
 package ara.main.Config;
 
-import ara.main.Entity.PersonEntities.persons;
-import ara.main.Repositories.UserRepository.PersonRepository;
+import ara.main.Entity.persons;
+import ara.main.Repositories.PersonRepository;
 import ara.main.Service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

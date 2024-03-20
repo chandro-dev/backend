@@ -1,4 +1,4 @@
-package ara.main.Entity.PersonEntities;
+package ara.main.Entity;
 
 
 import ara.main.Dto.util.Role;

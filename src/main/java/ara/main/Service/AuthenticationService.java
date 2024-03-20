@@ -2,8 +2,8 @@ package ara.main.Service;
 
 import ara.main.Dto.AuthenticationRequest;
 import ara.main.Dto.AuthenticationResponse;
-import ara.main.Entity.PersonEntities.persons;
-import ara.main.Repositories.UserRepository.PersonRepository;
+import ara.main.Entity.persons;
+import ara.main.Repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
