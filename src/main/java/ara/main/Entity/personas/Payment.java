@@ -1,4 +1,4 @@
-package ara.main.Entity;
+package ara.main.Entity.personas;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

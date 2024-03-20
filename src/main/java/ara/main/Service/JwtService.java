@@ -1,6 +1,6 @@
 package ara.main.Service;
 
-import ara.main.Entity.persons;
+import ara.main.Entity.personas.Persons;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -19,7 +19,7 @@ public class JwtService {
     private Long EXPIRATION_MINUTES;
     @Value("${security.jwt.secret-key}")
     private String SECRET_KEY;
-    public String generateToken(persons persons, Map<String, Object> extraClaims) {
+    public String generateToken(Persons persons, Map<String, Object> extraClaims) {
 
         Date issuetAt = new Date(System.currentTimeMillis());
         Date expiration = new Date(issuetAt.getTime()+(EXPIRATION_MINUTES * 60 * 1000));

@@ -1,5 +1,4 @@
-package ara.main.Entity;
-
+package ara.main.Entity.personas;
 
 import ara.main.Dto.util.Role;
 import jakarta.persistence.*;
@@ -10,12 +9,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class persons implements UserDetails {
+public class Persons implements UserDetails {
     @Id
     private String identification;
     private String name;

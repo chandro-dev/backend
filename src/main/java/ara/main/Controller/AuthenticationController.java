@@ -2,7 +2,7 @@ package ara.main.Controller;
 
 import ara.main.Dto.AuthenticationRequest;
 import ara.main.Dto.AuthenticationResponse;
-import ara.main.Entity.persons;
+import ara.main.Entity.personas.Persons;
 import ara.main.Service.AuthenticationService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +23,4 @@ public class AuthenticationController {
         return ResponseEntity.ok(jwtDto);
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody @Valid persons authRequest){
-        return authenticationService.register(authRequest);
-    }
 }
