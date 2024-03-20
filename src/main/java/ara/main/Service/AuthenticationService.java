@@ -43,21 +43,5 @@ public class AuthenticationService {
         return extraClaims;
     }
 
-    public ResponseEntity<String> register(persons _person){
-        try {
-            if (personRepository.existsByUsername(_person.getUsername())){
 
-                return ResponseEntity.badRequest().body("Ya existe ese nombre de usuario");
-            }
-            //Enconded password
-            String encodedPassword = passwordEncoder.encode(_person.getPassword());
-            _person.setPassword(encodedPassword);
-            personRepository.save(_person);
-            return ResponseEntity.ok("El usuario fue registrado con exito");
-        }
-        catch(Exception e){
-
-            return ResponseEntity.badRequest().body(e.toString());
-        }
-    }
 }
