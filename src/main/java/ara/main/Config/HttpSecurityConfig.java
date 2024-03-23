@@ -39,12 +39,11 @@ public class HttpSecurityConfig {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(authConfig -> {
                     //Metodos publicos
-                    authConfig.requestMatchers(HttpMethod.POST,"/auth/**").permitAll();
-                    authConfig.requestMatchers(HttpMethod.POST,"/personas/**").permitAll();
-                    authConfig.requestMatchers(HttpMethod.GET,"/personas/**").permitAll();
-                    authConfig.requestMatchers(HttpMethod.GET,"/auth/public-access").permitAll();
+                    authConfig.requestMatchers("/auth/**").permitAll();
+                    authConfig.requestMatchers("/personas/**").permitAll();
                     authConfig.requestMatchers("/error").permitAll();
                     authConfig.requestMatchers(WHITE_LIST_URL).permitAll();
+                    authConfig.requestMatchers("/images").permitAll();
 
                     //Metodos privados
                     authConfig.requestMatchers(HttpMethod.GET,"/products").hasAnyAuthority(Permission.SEE_ALL_PRODUCT.name()); //Solo pueden acceder las personas que cumplan con ese rol
