@@ -13,12 +13,10 @@ public class PaymentService {
 
                 return ResponseEntity.badRequest().body("Ya existe este pago");
             }
-
             paymentRepository.save(payment);
             return ResponseEntity.ok("El producto fue registrado con exito");
         }
         catch(Exception e){
-
             return ResponseEntity.badRequest().body(e.toString());
         }
     }
