@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
-
 public class OrdersService {
     private OrdersRepository ordersRepository;
     public ResponseEntity<String> register(Orders orders){
