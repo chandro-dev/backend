@@ -1,7 +1,6 @@
 package ara.main.Controller;
 
 import ara.main.Entity.Product;
-import ara.main.Entity.persons;
 import ara.main.Service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ public class ProductController {
     private ProductService productService;
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody @Valid Product authRequest){
-        System.out.println("Hola");
         return productService.register(authRequest);
     }
     @GetMapping()
