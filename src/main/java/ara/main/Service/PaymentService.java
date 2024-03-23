@@ -2,9 +2,10 @@ package ara.main.Service;
 import ara.main.Entity.Payment;
 import ara.main.Repositories.PaymentRepository;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class PaymentService {
     private PaymentRepository paymentRepository;
     public ResponseEntity<String> register(Payment payment){

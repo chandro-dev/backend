@@ -3,9 +3,12 @@ package ara.main.Service;
 import ara.main.Entity.Product;
 import ara.main.Repositories.ProductRepository;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
+@Service
 public class ProductService {
 
     private ProductRepository  productRepository;
