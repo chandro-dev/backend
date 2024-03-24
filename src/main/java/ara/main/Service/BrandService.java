@@ -2,6 +2,7 @@ package ara.main.Service;
 
 import ara.main.Entity.Brand;
 import ara.main.Entity.Category;
+import ara.main.Entity.Product;
 import ara.main.Repositories.BrandRepository;
 import ara.main.Repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,8 @@ import java.util.List;
 @Service
 
 public class BrandService {
-
+    @Autowired
+    public ProductRepository  productRepository;
 
     @Autowired
     public BrandRepository brandRepository;
@@ -21,6 +23,20 @@ public class BrandService {
     {
         try{
             return ResponseEntity.ok(brandRepository.findAll());
+        }catch(Exception e){
+            return ResponseEntity.badRequest().body(null);
+        }
+
+    }
+    public ResponseEntity<List<Product>> getToCBrand(int id){
+
+
+        try{
+
+            List<Product> productsBrand=null;
+
+            productsBrand = productRepository.findByBrand(id);
+            return ResponseEntity.ok(productsBrand);
         }catch(Exception e){
             return ResponseEntity.badRequest().body(null);
         }

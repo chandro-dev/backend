@@ -10,4 +10,5 @@ import java.math.BigInteger;
 public interface ProductRepository extends JpaRepository<Product, BigInteger> {
 
     List<Product> findByCategory(int category);
+    List<Product> findByBrand(int brand);
 }
