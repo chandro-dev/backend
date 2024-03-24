@@ -41,6 +41,9 @@ public class HttpSecurityConfig {
                     //Metodos publicos
                     authConfig.requestMatchers("/auth/**").permitAll();
                     authConfig.requestMatchers("/personas/**").permitAll();
+                    authConfig.requestMatchers("/Brand/**").permitAll();
+                    authConfig.requestMatchers("/Product/**").permitAll();
+                    authConfig.requestMatchers("/Category/**").permitAll();
                     authConfig.requestMatchers("/error").permitAll();
                     authConfig.requestMatchers(WHITE_LIST_URL).permitAll();
                     authConfig.requestMatchers("/images").permitAll();
