@@ -46,7 +46,7 @@ public class HttpSecurityConfig {
                     authConfig.requestMatchers("/Category/**").permitAll();
                     authConfig.requestMatchers("/error").permitAll();
                     authConfig.requestMatchers(WHITE_LIST_URL).permitAll();
-                    authConfig.requestMatchers("/images").permitAll();
+                    authConfig.requestMatchers("/images/**").permitAll();
 
                     //Metodos privados
                     authConfig.requestMatchers(HttpMethod.GET,"/products").hasAnyAuthority(Permission.SEE_ALL_PRODUCT.name()); //Solo pueden acceder las personas que cumplan con ese rol

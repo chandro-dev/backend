@@ -2,10 +2,7 @@ package ara.main.Service;
 
 import ara.main.Dto.Asset;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.amazonaws.services.s3.model.S3Object;
-import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.amazonaws.services.s3.model.*;
 import com.amazonaws.util.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +24,8 @@ public class S3Service {
         ObjectMetadata objectMetadata=new ObjectMetadata();
         objectMetadata.setContentType(multipartFile.getContentType());
         try{
-            PutObjectRequest putObjectRequest=new PutObjectRequest(BUCKET,key,multipartFile.getInputStream(),objectMetadata);
+            PutObjectRequest putObjectRequest=new PutObjectRequest(BUCKET,key,multipartFile.getInputStream(),objectMetadata)
+                    .withCannedAcl(CannedAccessControlList.PublicRead);
             s3Client.putObject(putObjectRequest);
             return key;
         }catch (IOException ex){
