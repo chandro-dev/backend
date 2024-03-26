@@ -29,14 +29,8 @@ public class BrandService {
 
     }
     public ResponseEntity<List<Product>> getToCBrand(int id){
-
-
         try{
-
-            List<Product> productsBrand=null;
-
-            productsBrand = productRepository.findByBrand(id);
-            return ResponseEntity.ok(productsBrand);
+            return ResponseEntity.ok(productRepository.findByBrand(id));
         }catch(Exception e){
             return ResponseEntity.badRequest().body(null);
         }

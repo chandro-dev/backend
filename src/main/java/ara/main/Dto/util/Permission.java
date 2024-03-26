@@ -3,5 +3,6 @@ package ara.main.Dto.util;
 public enum Permission {
     SEE_ALL_PRODUCT,
     SAVE_ONE_PRODUCT,
-    PAYMENT_PRODUCT
+    PAYMENT_PRODUCT,
+    SEE_ALL_USERS
 }

@@ -1,37 +1,53 @@
 package ara.main.Service;
 
+import ara.main.Config.GeneratorId;
+import ara.main.Dto.OrderDto;
 import ara.main.Entity.Orders;
-import ara.main.Entity.Product;
 import ara.main.Repositories.OrdersRepository;
-import ara.main.Repositories.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
-public class OrdersService {
+public class OrdersService implements CRUDInterface<OrderDto>{
+    @Autowired
     private OrdersRepository ordersRepository;
-    public ResponseEntity<String> register(Orders orders){
-        try {
-            if (ordersRepository.existsById(orders.getIdOrder())){
-
-                return ResponseEntity.badRequest().body("Ya existe esta orden");
-            }
-
-            ordersRepository.save(orders);
-            return ResponseEntity.ok("El producto fue registrado con exito");
+    @Autowired
+    private GeneratorId generatorId;
+    @Override
+    public ResponseEntity<String> register(OrderDto orderDetails) {
+        if (!ordersRepository.existsById(orderDetails.getIdOrder())){
+            String Id=generatorId.IdGenerator();
+            var order=Orders.builder()
+                    .idOrder(Id)
+                    .payment("")
+                    .totalPrice(0.0)
+                    .build();
+            ordersRepository.save(order);
+            return ResponseEntity.ok(Id);
         }
-        catch(Exception e){
-
-            return ResponseEntity.badRequest().body(e.toString());
-        }
+        return null;
     }
-    public ResponseEntity<List<Orders>> getAll(){
-        try{
-            return ResponseEntity.ok(ordersRepository.findAll());
-        }catch(Exception e){
-            return ResponseEntity.badRequest().body(null);
-        }
 
+    @Override
+    public ResponseEntity<String> modify(OrderDto orderDetails) {
+        if (ordersRepository.existsById(orderDetails.getIdOrder())){
+            String Id=generatorId.IdGenerator();
+            var order=Orders.builder()
+                    .idOrder(Id)
+                    .payment(orderDetails.getPayment())
+                    .totalPrice(orderDetails.getTotalPrice())
+                    .build();
+            ordersRepository.save(order);
+            return ResponseEntity.ok(Id);
+        }
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<List<OrderDto>> getAll() {
+        return null;
     }
 }

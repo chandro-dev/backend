@@ -42,16 +42,15 @@ public class HttpSecurityConfig {
                     authConfig.requestMatchers("/auth/**").permitAll();
                     authConfig.requestMatchers("/personas/**").permitAll();
                     authConfig.requestMatchers("/Brand/**").permitAll();
-                    authConfig.requestMatchers("/Product/**").permitAll();
+                    authConfig.requestMatchers("/Product").permitAll();
                     authConfig.requestMatchers("/Category/**").permitAll();
                     authConfig.requestMatchers("/error").permitAll();
                     authConfig.requestMatchers(WHITE_LIST_URL).permitAll();
                     authConfig.requestMatchers("/images/**").permitAll();
 
                     //Metodos privados
-                    authConfig.requestMatchers(HttpMethod.GET,"/products").hasAnyAuthority(Permission.SEE_ALL_PRODUCT.name()); //Solo pueden acceder las personas que cumplan con ese rol
-                    authConfig.requestMatchers(HttpMethod.POST,"/products").hasAnyAuthority(Permission.SAVE_ONE_PRODUCT.name());
-
+                    authConfig.requestMatchers("/personas").hasAnyAuthority(Permission.SEE_ALL_USERS.name());
+                    authConfig.requestMatchers("/Product/**").hasAnyAuthority(Permission.SAVE_ONE_PRODUCT.name());
                     //Denegar las peticiones que no esten dentro de los requestMatchers
                     authConfig.anyRequest().denyAll();
                 });
