@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigInteger;
 import java.util.List;
 
 @RestController
@@ -15,8 +16,16 @@ public class ProductController {
     @Autowired
     private ProductService productService;
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody @Valid Product authRequest){
-        return productService.register(authRequest);
+    public ResponseEntity<String> registerProduct(@RequestBody @Valid Product product){
+        return productService.register(product);
+    }
+    @PutMapping("/modify")
+    public  ResponseEntity<String>modifyProduct(@RequestBody @Valid Product product){
+        return productService.modify(product);
+    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String>deleteProduct(@PathVariable BigInteger id){
+        return productService.delete(id);
     }
     @GetMapping()
     public ResponseEntity<List<Product>> getAll(){

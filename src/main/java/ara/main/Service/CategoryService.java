@@ -29,14 +29,8 @@ public class CategoryService {
 
     }
     public ResponseEntity<List<Product>> getToCategory(int id){
-
-
         try{
-
-            List<Product> productsCategory=null;
-
-            productsCategory = productRepository.findByCategory(id);
-            return ResponseEntity.ok(productsCategory);
+            return ResponseEntity.ok(productRepository.findByCategory(id));
         }catch(Exception e){
             return ResponseEntity.badRequest().body(null);
         }

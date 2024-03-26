@@ -16,7 +16,6 @@ public class PersonasController {
     private PersonasService personasService;
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody @Valid persons authRequest){
-        System.out.println("Hola");
         return personasService.register(authRequest);
     }
     @GetMapping()

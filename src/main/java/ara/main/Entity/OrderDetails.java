@@ -3,6 +3,7 @@ package ara.main.Entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import java.math.BigInteger;
 @Table(name = "order_details")
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class OrderDetails {
     @Column(name = "id_order")
     private String idOrder;
