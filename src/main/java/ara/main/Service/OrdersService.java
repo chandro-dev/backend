@@ -9,45 +9,46 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class OrdersService implements CRUDInterface<OrderDto>{
+public class OrdersService implements CRUDInterface<Orders>{
     @Autowired
     private OrdersRepository ordersRepository;
     @Autowired
     private GeneratorId generatorId;
     @Override
-    public ResponseEntity<String> register(OrderDto orderDetails) {
-        if (!ordersRepository.existsById(orderDetails.getIdOrder())){
-            String Id=generatorId.IdGenerator();
-            var order=Orders.builder()
-                    .idOrder(Id)
-                    .payment("")
-                    .totalPrice(0.0)
-                    .build();
-            ordersRepository.save(order);
-            return ResponseEntity.ok(Id);
+    public ResponseEntity<String> register(Orders order) {
+        if (!ordersRepository.existsById(order.getIdOrder())){
+            ResponseEntity.ok("Guardado Correctamente"+saveOrder(order));
         }
-        return null;
+        return ResponseEntity.badRequest().body("Ya existe una orden asociada a ese Id");
     }
 
     @Override
-    public ResponseEntity<String> modify(OrderDto orderDetails) {
-        if (ordersRepository.existsById(orderDetails.getIdOrder())){
-            String Id=generatorId.IdGenerator();
-            var order=Orders.builder()
-                    .idOrder(Id)
-                    .payment(orderDetails.getPayment())
-                    .totalPrice(orderDetails.getTotalPrice())
-                    .build();
-            ordersRepository.save(order);
-            return ResponseEntity.ok(Id);
+    public ResponseEntity<String> modify(Orders order) {
+        if (ordersRepository.existsById(order.getIdOrder())){
+            ResponseEntity.ok("Modificado Correctamente"+saveOrder(order));
         }
-        return null;
+        return ResponseEntity.badRequest().body("No existe una orden asociada a ese Id");
     }
 
     @Override
-    public ResponseEntity<List<OrderDto>> getAll() {
-        return null;
+    public ResponseEntity<List<Orders>> getAll() {
+        return ResponseEntity.ok(ordersRepository.findAll());
+    }
+
+    protected Optional<Orders> getOrderById(String idOrder){
+        return ordersRepository.findById(idOrder);
+    }
+    protected String saveOrder(Orders order){
+        String Id=generatorId.IdGenerator();
+        var orders=Orders.builder()
+                .idOrder(Id)
+                .payment(order.getPayment())
+                .totalPrice(order.getTotalPrice())
+                .build();
+        ordersRepository.save(orders);
+        return Id;
     }
 }
