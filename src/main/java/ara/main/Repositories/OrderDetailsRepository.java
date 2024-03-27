@@ -49,4 +49,19 @@ public class OrderDetailsRepository {
             throw new RuntimeException(e.getMessage());
         }
     }
+    public List<OrderDetails> findAllOrdersDetails(){
+        try{
+            String Sql="SELECT * FROM order_details";
+            List<OrderDetails> orders= jdbcTemplate.query(Sql,(resultSet,rowNum)->{
+                OrderDetails orderDetails= new OrderDetails();
+                orderDetails.setIdProduct(BigInteger.valueOf(resultSet.getInt("id_product")));
+                orderDetails.setAmount(resultSet.getInt("amount"));
+                orderDetails.setPriceTaxes(resultSet.getDouble("price_taxes"));
+                return orderDetails;
+            });
+            return orders;
+        }catch (Exception e){
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 }
