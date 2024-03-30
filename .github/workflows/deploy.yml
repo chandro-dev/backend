@@ -8,6 +8,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      S3ACCESKEY: ${{ secrets.S3ACCESKEY }}
+      S3SECRETKEY: ${{ secrets.S3SECRETKEY }}
+      OAUTH2CLIENTID: ${{ secrets.DB_PASSWORD }}
+      OAUTH2CLIENTSECRETID: ${{ secrets.OAUTH2CLIENTSECRETID }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -20,3 +25,4 @@ jobs:
 
       - name: Build with Maven
         run: mvn -B clean package --file pom.xml
+
