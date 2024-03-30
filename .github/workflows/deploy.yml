@@ -25,4 +25,6 @@ jobs:
 
       - name: Build with Maven
         run: mvn -B clean package -DskipTests --file pom.xml
+      - name: ver archivos
+        run: ls -l
 
