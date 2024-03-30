@@ -4,13 +4,14 @@ import ara.main.Dto.util.Permission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
@@ -29,31 +30,40 @@ public class HttpSecurityConfig {
             "/configuration/security",
             "/swagger-ui/**",
             "/webjars/**",
-            "/swagger-ui.html"};
+            "/swagger-ui.html"
+            ,"/auth/**",
+            "/personas/**",
+            "/Brand/**",
+            "/Product",
+            "/Category/**",
+            "/error",
+            "/images/**"};
     @Bean
+    @Order(1)
+    public SecurityFilterChain securityFilterOauth(HttpSecurity http) throws Exception {
+        http.csrf(csrfConfig -> csrfConfig.disable())
+                .authorizeHttpRequests(authConfig -> {
+                    authConfig.requestMatchers("/user/**").authenticated();
+                    authConfig.requestMatchers("/**").permitAll();
+                }).oauth2Login(withDefaults());
+        return http.build();
+    }
+    @Bean
+    @Order(2)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(csrfConfig -> csrfConfig.disable())//Desactivar la vulnerabilidad web que viene habilitado por defecto
+        http.csrf(csrfConfig -> csrfConfig.disable())
                 .sessionManagement(sessionManConfig -> sessionManConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //Las sesiones ya no van a tener estados
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(authConfig -> {
                     //Metodos publicos
-                    authConfig.requestMatchers("/auth/**").permitAll();
-                    authConfig.requestMatchers("/personas/**").permitAll();
-                    authConfig.requestMatchers("/Brand/**").permitAll();
-                    authConfig.requestMatchers("/Product").permitAll();
-                    authConfig.requestMatchers("/Category/**").permitAll();
-                    authConfig.requestMatchers("/error").permitAll();
                     authConfig.requestMatchers(WHITE_LIST_URL).permitAll();
-                    authConfig.requestMatchers("/images/**").permitAll();
-
                     //Metodos privados
                     authConfig.requestMatchers("/personas").hasAnyAuthority(Permission.SEE_ALL_USERS.name());
                     authConfig.requestMatchers("/Product/**").hasAnyAuthority(Permission.SAVE_ONE_PRODUCT.name());
-                    //Denegar las peticiones que no esten dentro de los requestMatchers
-                    authConfig.anyRequest().denyAll();
+                    authConfig.anyRequest().authenticated();
                 });
         return http.build();
     }
+
 }
