@@ -28,5 +28,5 @@ jobs:
       - name: ver archivos
         run: |
             cd target;
-            tree -c
+            ls -l
 
