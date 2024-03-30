@@ -13,6 +13,8 @@ jobs:
       S3SECRETKEY: ${{ secrets.S3SECRETKEY }}
       OAUTH2CLIENTID: ${{ secrets.DB_PASSWORD }}
       OAUTH2CLIENTSECRETID: ${{ secrets.OAUTH2CLIENTSECRETID }}
+      KEYDB:  ${{ secrets.KEYDB }}
+      USERDB:  ${{ secrets.USERDB }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
