@@ -44,5 +44,5 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
             cd /home/admin/java-files/main-0.0.1-SNAPSHOT.jar/target
-            nohup java -jar main-0.0.1-SNAPSHOT.jar --server.port=80 > app.log 2>&1 &
+            nohup java -jar main-0.0.1-SNAPSHOT.jar  > app.log 2>&1 &
 
