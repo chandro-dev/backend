@@ -15,6 +15,7 @@ jobs:
       OAUTH2CLIENTSECRETID: ${{ secrets.OAUTH2CLIENTSECRETID }}
       KEYDB:  ${{ secrets.KEYDB }}
       USERDB:  ${{ secrets.USERDB }}
+      DB: ${{ secrets.DB}}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
