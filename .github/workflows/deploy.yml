@@ -44,7 +44,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
-            echo ${{secrets.DB}}
             cd /home/admin/java-files/main-0.0.1-SNAPSHOT.jar/target
-            sudo DB="${{secrets.DB}}" USERDB="${{secrets.USERDB}}" KEYDB="${{secrets.KEYDB}}" S3ACCESKEY="${{secrets.S3ACCESKEY}}" S3SECRETKEY="${{secrets.S3SECRETKEY}}" OAUTH2CLIENTID="${{secrets.OAUTH2CLIENTID}}" OAUTH2CLIENTSECRETID="${{secrets.OAUTH2CLIENTSECRETID}}"  java -jar main-0.0.1-SNAPSHOT.jar
+            sudo DB="${{secrets.DB}}" USERDB="${{secrets.USERDB}}" KEYDB="${{secrets.KEYDB}}" S3ACCESKEY="${{secrets.S3ACCESKEY}}" S3SECRETKEY="${{secrets.S3SECRETKEY}}" OAUTH2CLIENTID="${{secrets.OAUTH2CLIENTID}}" OAUTH2CLIENTSECRETID="${{secrets.OAUTH2CLIENTSECRETID}}"  java -jar main-0.0.1-SNAPSHOT.jar  > app.log 2>&1 &
+
 
