@@ -35,10 +35,16 @@ public class AuthenticationService {
         String jwt=jwtService.generateToken(persons,generateExtraClaims(persons));
         return new AuthenticationResponse(jwt);
     }
+    public AuthenticationResponse loginOauth(String id) {
+        persons persona = personRepository.findById(id).get();
+        String jwt=jwtService.generateToken(persona,generateExtraClaims(persona));
+        return new AuthenticationResponse(jwt);
 
-    private Map<String,Object> generateExtraClaims(persons persons) {
+    }
+        private Map<String,Object> generateExtraClaims(persons persons) {
         Map<String,Object> extraClaims= new HashMap<>();
         extraClaims.put("name", persons.getName());
+        extraClaims.put("id", persons.getIdentification());
         extraClaims.put("role", persons.getRole().name());
         return extraClaims;
     }

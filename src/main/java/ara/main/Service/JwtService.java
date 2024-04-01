@@ -46,8 +46,8 @@ public class JwtService {
         return Keys.hmacShaKeyFor(secretAsByte);
     }
 
-    public String extractUsername(String jwt) {
-        return getBody(jwt).getSubject();
+    public String extractID(String jwt) {
+        return getBody(jwt).get("id").toString();
     }
 
     private Claims getBody(String jwt) {

@@ -17,13 +17,16 @@ public class PersonasService {
     private PasswordEncoder passwordEncoder;
     public ResponseEntity<String> register(persons _person){
         try {
-            if (personRepository.existsByUsername(_person.getUsername())){
+            if (personRepository.existsByUsername(_person.getUsername()) || personRepository.existsById(_person.getIdentification())){
 
-                return ResponseEntity.badRequest().body("Ya existe ese nombre de usuario");
+                return ResponseEntity.badRequest().body("Ya existe este usuario");
             }
             //Enconded password
+            if(_person.getPassword() !=null){
             String encodedPassword = passwordEncoder.encode(_person.getPassword());
             _person.setPassword(encodedPassword);
+            }
+
             personRepository.save(_person);
             return ResponseEntity.ok("El usuario fue registrado con exito");
         }
