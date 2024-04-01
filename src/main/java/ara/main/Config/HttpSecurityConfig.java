@@ -32,7 +32,6 @@ public class HttpSecurityConfig {
             "/webjars/**",
             "/swagger-ui.html"
             ,"/auth/**",
-//            "/personas/**",
             "/Brand/**",
             "/Product",
             "/Category/**",
@@ -41,9 +40,10 @@ public class HttpSecurityConfig {
     @Bean
     @Order(1)
     public SecurityFilterChain securityFilterOauth(HttpSecurity http) throws Exception {
-        http.csrf(csrfConfig -> csrfConfig.disable()).securityMatcher("/Oauth/**")
+        http.csrf(csrfConfig -> csrfConfig.disable())
                 .authorizeHttpRequests(authConfig -> {
-                    authConfig.anyRequest().authenticated();
+                    authConfig.requestMatchers("/Oauth/**").authenticated();
+                    authConfig.requestMatchers(WHITE_LIST_URL).permitAll();
                 }).oauth2Login(withDefaults());
         return http.build();
     }
@@ -51,16 +51,17 @@ public class HttpSecurityConfig {
     @Order(2)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrfConfig -> csrfConfig.disable())
+
                 .sessionManagement(sessionManConfig -> sessionManConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //Las sesiones ya no van a tener estados
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .securityMatcher("/api/**")
                 .authorizeHttpRequests(authConfig -> {
                     //Metodos publicos
-                    authConfig.requestMatchers(WHITE_LIST_URL).permitAll();
-                    authConfig.requestMatchers("/api/**").authenticated();
                     //Metodos privados
 //                    authConfig.requestMatchers("/personas").hasAnyAuthority(Permission.SEE_ALL_USERS.name());
                     authConfig.requestMatchers("/Product/**").hasAnyAuthority(Permission.SAVE_ONE_PRODUCT.name());
+                    authConfig.anyRequest().authenticated();
                 });
 
         return http.build();
