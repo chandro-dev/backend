@@ -32,7 +32,7 @@ public class HttpSecurityConfig {
             "/webjars/**",
             "/swagger-ui.html"
             ,"/auth/**",
-            "/personas/**",
+//            "/personas/**",
             "/Brand/**",
             "/Product",
             "/Category/**",
@@ -41,10 +41,9 @@ public class HttpSecurityConfig {
     @Bean
     @Order(1)
     public SecurityFilterChain securityFilterOauth(HttpSecurity http) throws Exception {
-        http.csrf(csrfConfig -> csrfConfig.disable())
+        http.csrf(csrfConfig -> csrfConfig.disable()).securityMatcher("/Oauth/**")
                 .authorizeHttpRequests(authConfig -> {
-                    authConfig.requestMatchers("/user/**").authenticated();
-                    authConfig.requestMatchers("/**").permitAll();
+                    authConfig.anyRequest().authenticated();
                 }).oauth2Login(withDefaults());
         return http.build();
     }
@@ -58,11 +57,12 @@ public class HttpSecurityConfig {
                 .authorizeHttpRequests(authConfig -> {
                     //Metodos publicos
                     authConfig.requestMatchers(WHITE_LIST_URL).permitAll();
+                    authConfig.requestMatchers("/api/**").authenticated();
                     //Metodos privados
-                    authConfig.requestMatchers("/personas").hasAnyAuthority(Permission.SEE_ALL_USERS.name());
+//                    authConfig.requestMatchers("/personas").hasAnyAuthority(Permission.SEE_ALL_USERS.name());
                     authConfig.requestMatchers("/Product/**").hasAnyAuthority(Permission.SAVE_ONE_PRODUCT.name());
-                    authConfig.anyRequest().authenticated();
                 });
+
         return http.build();
     }
 
