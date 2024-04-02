@@ -30,13 +30,14 @@ public class HttpSecurityConfig {
             "/configuration/security",
             "/swagger-ui/**",
             "/webjars/**",
-            "/swagger-ui.html"
-            ,"/auth/**",
+            "/swagger-ui.html",
+            "/auth/**",
             "/Brand/**",
             "/Product",
             "/Category/**",
             "/error",
-            "/images/**"};
+            "/images/**",
+            "/personas/register"};
     @Bean
     @Order(1)
     public SecurityFilterChain securityFilterOauth(HttpSecurity http) throws Exception {
@@ -59,7 +60,7 @@ public class HttpSecurityConfig {
                 .authorizeHttpRequests(authConfig -> {
                     //Metodos publicos
                     //Metodos privados
-//                    authConfig.requestMatchers("/personas").hasAnyAuthority(Permission.SEE_ALL_USERS.name());
+                    authConfig.requestMatchers("/personas").hasAnyAuthority(Permission.SEE_ALL_USERS.name());
                     authConfig.requestMatchers("/Product/**").hasAnyAuthority(Permission.SAVE_ONE_PRODUCT.name());
                     authConfig.anyRequest().authenticated();
                 });
