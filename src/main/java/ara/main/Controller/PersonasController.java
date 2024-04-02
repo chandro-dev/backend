@@ -1,5 +1,6 @@
 package ara.main.Controller;
 
+import ara.main.Dto.RegisterRequest;
 import ara.main.Entity.persons;
 import ara.main.Service.PersonasService;
 import jakarta.validation.Valid;
@@ -14,7 +15,7 @@ public class PersonasController {
     @Autowired
     private PersonasService personasService;
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody @Valid persons authRequest){
+    public ResponseEntity<String> register(@RequestBody @Valid RegisterRequest authRequest){
         return personasService.register(authRequest);
     }
     @GetMapping()
