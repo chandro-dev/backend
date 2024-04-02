@@ -16,8 +16,9 @@ public class PersonasService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     public ResponseEntity<String> register(persons _person){
+        System.out.print(_person.getUsername());
         try {
-            if (personRepository.existsByUsername(_person.getUsername()) || personRepository.existsById(_person.getIdentification())){
+            if (personRepository.existsByUsername(_person.getUsername()) && personRepository.existsById(_person.getIdentification())){
 
                 return ResponseEntity.badRequest().body("Ya existe este usuario");
             }

@@ -32,6 +32,7 @@ public class OAuth2Controller {
     }
     @GetMapping("/register")
     public ResponseEntity<String> register(@AuthenticationPrincipal OAuth2User principal){
+        System.out.append("Pase por aqui");
         persons persona = new persons();
         String[] nombre= principal.getAttribute("name").toString().split(" ");
         String[] apellido= principal.getAttribute("family_name").toString().split(" ");
