@@ -1,5 +1,6 @@
 package ara.main.Service;
 
+import ara.main.Dto.RegisterRequest;
 import ara.main.Entity.persons;
 import ara.main.Repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,24 +16,34 @@ public class PersonasService {
     private PersonRepository personRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
-    public ResponseEntity<String> register(persons _person){
-        System.out.print(_person.getUsername());
+
+    public ResponseEntity<String> register(RegisterRequest request){
         try {
-            if (personRepository.existsByUsername(_person.getUsername()) && personRepository.existsById(_person.getIdentification())){
+            if (personRepository.existsByUsername(request.getUsername()) && personRepository.existsById(request.getIdentification())){
 
                 return ResponseEntity.badRequest().body("Ya existe este usuario");
             }
             //Enconded password
-            if(_person.getPassword() !=null){
-            String encodedPassword = passwordEncoder.encode(_person.getPassword());
-            _person.setPassword(encodedPassword);
+            if(request.getPassword() !=null){
+                String encodedPassword = passwordEncoder.encode(request.getPassword());
+                request.setPassword(encodedPassword);
+                return  ResponseEntity.badRequest().body("Contraseña Vacia");
             }
-
-            personRepository.save(_person);
+            var user = persons.builder()
+                    .identification(request.getIdentification())
+                    .name(request.getName())
+                    .secondName(request.getSecondLastname())
+                    .lastname(request.getLastname())
+                    .secondLastname(request.getSecondLastname())
+                    .username(request.getUsername())
+                    .email(request.getEmail())
+                    .password(request.getPassword())
+                    .role(request.getRole())
+                    .build();
+            personRepository.save(user);
             return ResponseEntity.ok("El usuario fue registrado con exito");
         }
         catch(Exception e){
-
             return ResponseEntity.badRequest().body(e.toString());
         }
     }

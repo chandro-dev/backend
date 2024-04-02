@@ -13,6 +13,7 @@ import java.util.Collection;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class persons implements UserDetails {
     @Id
     private String identification;
