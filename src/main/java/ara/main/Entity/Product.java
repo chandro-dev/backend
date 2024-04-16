@@ -31,4 +31,5 @@ public class Product {
     private int brand;
     private double discount;
     private String img_src;
+    private String content;
 }
