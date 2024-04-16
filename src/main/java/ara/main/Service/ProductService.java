@@ -2,6 +2,7 @@ package ara.main.Service;
 
 import ara.main.Entity.Product;
 import ara.main.Repositories.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,7 @@ import java.util.List;
 
 @Service
 public class ProductService implements CRUDInterface<Product>{
+    @Autowired
     private ProductRepository  productRepository;
     @Override
     public ResponseEntity<String> register(Product product){

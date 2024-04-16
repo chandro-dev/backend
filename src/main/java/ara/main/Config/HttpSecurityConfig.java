@@ -33,7 +33,7 @@ public class HttpSecurityConfig {
             "/swagger-ui.html",
             "/auth/**",
             "/Brand/**",
-            "/Product",
+            "/Product/**",
             "/Category/**",
             "/error",
             "/images/**",
@@ -58,10 +58,6 @@ public class HttpSecurityConfig {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .securityMatcher("/api/**")
                 .authorizeHttpRequests(authConfig -> {
-                    //Metodos publicos
-                    //Metodos privados
-                    authConfig.requestMatchers("/personas").hasAnyAuthority(Permission.SEE_ALL_USERS.name());
-                    authConfig.requestMatchers("/Product/**").hasAnyAuthority(Permission.SAVE_ONE_PRODUCT.name());
                     authConfig.anyRequest().authenticated();
                 });
 
