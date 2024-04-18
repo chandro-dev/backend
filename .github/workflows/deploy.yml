@@ -1,4 +1,5 @@
 name: CI/CD with Spring Boot
+
 on:
   push:
     branches:
@@ -8,14 +9,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    env:
-      S3ACCESKEY: ${{ secrets.S3ACCESKEY }}
-      S3SECRETKEY: ${{ secrets.S3SECRETKEY }}
-      OAUTH2CLIENTID: ${{ secrets.DB_PASSWORD }}
-      OAUTH2CLIENTSECRETID: ${{ secrets.OAUTH2CLIENTSECRETID }}
-      KEYDB:  ${{ secrets.KEYDB }}
-      USERDB:  ${{ secrets.USERDB }}
-      DB: ${{ secrets.DB}}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -28,23 +21,29 @@ jobs:
 
       - name: Build with Maven
         run: mvn -B clean package -DskipTests --file pom.xml
-      - name: Copy JAR to EC2
-        uses: appleboy/scp-action@master
+
+      - name: Upload JAR artifact
+        uses: actions/upload-artifact@v2
         with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_PRIVATE_KEY }}
-          source: "target/main-0.0.1-SNAPSHOT.jar"
-          target: "/home/admin/java-files/main-0.0.1-SNAPSHOT.jar"
+          name: spring-boot-jar
+          path: target/main-0.0.1-SNAPSHOT.jar
 
-      - name: SSH into EC2 and start application
-        uses: appleboy/ssh-action@master
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Download JAR artifact
+        uses: actions/download-artifact@v2
         with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_PRIVATE_KEY }}
-          script: |
-            cd /home/admin/java-files/main-0.0.1-SNAPSHOT.jar/target
-            sudo DB="${{secrets.DB}}" USERDB="${{secrets.USERDB}}" KEYDB="${{secrets.KEYDB}}" S3ACCESKEY="${{secrets.S3ACCESKEY}}" S3SECRETKEY="${{secrets.S3SECRETKEY}}" OAUTH2CLIENTID="${{secrets.OAUTH2CLIENTID}}" OAUTH2CLIENTSECRETID="${{secrets.OAUTH2CLIENTSECRETID}}"  java -jar main-0.0.1-SNAPSHOT.jar > app.log 2>&1 &
+          name: spring-boot-jar
+          path: /home/gitactions/contenedores/springBoot/main-0.0.1-SNAPSHOT.jar
 
+      - name: Build Docker image
+        run: |
+          cd /home/gitactions/contenedores/springBoot
+          docker build -t springboot-app .
 
+      - name: Run Docker Compose
+        run: |
+          cd /home/gitactions/contenedores/springBoot
+          docker-compose up -d
