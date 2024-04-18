@@ -32,12 +32,15 @@ jobs:
     runs-on: self-hosted
     needs: build
     steps:
+      - name: Remove existing JAR artifact
+        run: rm -f /home/gitactions/contenedores/springBoot/main-0.0.1-SNAPSHOT.jar
+
       - name: Download JAR artifact
         uses: actions/download-artifact@v2
         with:
           name: spring-boot-jar
-          path: /home/gitactions/contenedores/springBoot/main-0.0.1-SNAPSHOT.jar
-          overwrite: true
+          path: /home/gitactions/contenedores/springBoot/
+
 
       - name: Build Docker image
         run: |
