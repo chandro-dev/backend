@@ -1,9 +1,7 @@
 package ara.main.Service;
 
-import ara.main.Entity.Brand;
 import ara.main.Entity.Category;
 import ara.main.Entity.Product;
-import ara.main.Repositories.BrandRepository;
 import ara.main.Repositories.CategoryRepository;
 import ara.main.Repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +32,6 @@ public class CategoryService {
         }catch(Exception e){
             return ResponseEntity.badRequest().body(null);
         }
-
     }
+
 }

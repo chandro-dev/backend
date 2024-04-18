@@ -1,5 +1,6 @@
 package ara.main.Controller;
 
+import ara.main.Dto.PersonsDto;
 import ara.main.Dto.RegisterRequest;
 import ara.main.Entity.persons;
 import ara.main.Service.PersonasService;
@@ -18,8 +19,12 @@ public class PersonasController {
     public ResponseEntity<String> register(@RequestBody @Valid RegisterRequest authRequest){
         return personasService.register(authRequest);
     }
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<persons>> getAll(){
         return  personasService.getAll();
+    }
+    @GetMapping("/{username}")
+    public ResponseEntity<PersonsDto> getProfile(@PathVariable String username){
+        return personasService.getUser(username);
     }
 }

@@ -31,13 +31,13 @@ public class HttpSecurityConfig {
             "/swagger-ui/**",
             "/webjars/**",
             "/swagger-ui.html",
-            "/auth/**",
+            "/auth/authenticate",
             "/Brand/**",
             "/Product/**",
             "/Category/**",
             "/error",
             "/images/**",
-            "/personas/register"};
+            "/personas/**"};
     @Bean
     @Order(1)
     public SecurityFilterChain securityFilterOauth(HttpSecurity http) throws Exception {
@@ -58,6 +58,7 @@ public class HttpSecurityConfig {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .securityMatcher("/api/**")
                 .authorizeHttpRequests(authConfig -> {
+                    authConfig.requestMatchers(WHITE_LIST_URL).permitAll();
                     authConfig.anyRequest().authenticated();
                 });
 
