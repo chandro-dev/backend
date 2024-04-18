@@ -37,6 +37,7 @@ jobs:
         with:
           name: spring-boot-jar
           path: /home/gitactions/contenedores/springBoot/main-0.0.1-SNAPSHOT.jar
+          overwrite: true
 
       - name: Build Docker image
         run: |
