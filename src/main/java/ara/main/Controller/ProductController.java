@@ -31,4 +31,8 @@ public class ProductController {
     public ResponseEntity<List<Product>> getAll(){
         return  productService.getAll();
     }
+    @GetMapping("/{name}")
+    public ResponseEntity<List<Product>>findProduct(@PathVariable String name){
+        return productService.findProducts(name);
+    }
 }
