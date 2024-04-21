@@ -1,6 +1,7 @@
 package ara.main.Service;
 
 import ara.main.Entity.Product;
+import ara.main.Repositories.JDBCQuerys;
 import ara.main.Repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,8 @@ import java.util.List;
 public class ProductService implements CRUDInterface<Product>{
     @Autowired
     private ProductRepository  productRepository;
+    @Autowired
+    private JDBCQuerys jdbcQuerys;
     @Override
     public ResponseEntity<String> register(Product product){
         try {
@@ -73,4 +76,8 @@ public class ProductService implements CRUDInterface<Product>{
         productRepository.save(product);
         return ResponseEntity.ok("El producto fue registrado con exito");
     }
+    public ResponseEntity<List<Product>> findProducts(String character){
+        return ResponseEntity.ok(jdbcQuerys.findProduct(character));
+    }
+
 }
