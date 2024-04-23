@@ -77,7 +77,7 @@ public class ProductService implements CRUDInterface<Product>{
         return ResponseEntity.ok("El producto fue registrado con exito");
     }
     public ResponseEntity<List<Product>> findProducts(String character){
-        return ResponseEntity.ok(jdbcQuerys.findProduct(character));
+        return ResponseEntity.ok(jdbcQuerys.findProduct(character.toLowerCase()));
     }
 
 }
