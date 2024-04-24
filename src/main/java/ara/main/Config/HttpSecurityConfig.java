@@ -37,7 +37,7 @@ public class HttpSecurityConfig {
             "/Category/**",
             "/error",
             "/images/**",
-            "/personas/**",'/Oauth/**'};
+            "/personas/**","/Oauth/**"};
     @Bean
     @Order(1)
     public SecurityFilterChain securityFilterOauth(HttpSecurity http) throws Exception {
