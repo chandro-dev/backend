@@ -39,8 +39,8 @@ public class OAuth2Service {
         return personasService.register(persona);
     }
 
-    public  ResponseEntity<AuthenticationResponse> loginUser(@AuthenticationPrincipal OAuth2User principal) {
-        AuthenticationResponse jwtDto= authenticationService.loginOauth(principal.getAttribute("sub"));
+    public  ResponseEntity<AuthenticationResponse> loginUser( String principal) {
+        AuthenticationResponse jwtDto= authenticationService.loginOauth(principal);
         return ResponseEntity.ok(jwtDto);
     }
 
