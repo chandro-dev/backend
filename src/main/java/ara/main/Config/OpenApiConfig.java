@@ -15,7 +15,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
                 contact = @Contact(
                         name = "Markersproject SA",
                         email = "Markersproject@outlook.com",
-                        url = "https://localhost:80/home"
+                        url = "https://localhost:8080/home"
                 ),
                 description = "Documentacion de la apí de proyecto de tiendas",
                 title = "OpenApi specification - Markersproject",
@@ -29,7 +29,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
         servers = {
                 @Server(
                         description = "Local ENV",
-                        url = "http://localhost:80"
+                        url = "http://localhost:8080"
                 ),
                 @Server(
                         description = "PROD ENV",

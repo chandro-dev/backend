@@ -35,4 +35,8 @@ public class ProductController {
     public ResponseEntity<List<Product>>findProduct(@PathVariable String name){
         return productService.findProducts(name);
     }
+    @GetMapping("/find/{id}")
+    public ResponseEntity<Product>findProductid(@PathVariable String id){
+        return productService.findProductid(id);
+    }
 }
