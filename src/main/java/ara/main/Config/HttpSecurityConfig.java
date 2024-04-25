@@ -37,13 +37,13 @@ public class HttpSecurityConfig {
             "/Category/**",
             "/error",
             "/images/**",
-            "/personas/**"};
+            "/personas/**","/Oauth/**"};
     @Bean
     @Order(1)
     public SecurityFilterChain securityFilterOauth(HttpSecurity http) throws Exception {
         http.csrf(csrfConfig -> csrfConfig.disable())
                 .authorizeHttpRequests(authConfig -> {
-                    authConfig.requestMatchers("/Oauth/**").authenticated();
+                    authConfig.requestMatchers("/pepe/**").authenticated();
                     authConfig.requestMatchers(WHITE_LIST_URL).permitAll();
                 }).oauth2Login(withDefaults());
         return http.build();

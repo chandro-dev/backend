@@ -27,8 +27,8 @@ public class OAuth2Controller {
     public ResponseEntity<String> register(@AuthenticationPrincipal OAuth2User principal){
         return oAuth2Service.registerUser(principal);
     }
-    @GetMapping("/login")
-    public  ResponseEntity<AuthenticationResponse> login(@AuthenticationPrincipal OAuth2User principal) {
+    @PostMapping("/login")
+    public  ResponseEntity<AuthenticationResponse> login(@RequestBody String principal) {
         return oAuth2Service.loginUser(principal);
     }
 }
