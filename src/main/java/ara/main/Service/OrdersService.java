@@ -1,7 +1,6 @@
 package ara.main.Service;
 
 import ara.main.Config.GeneratorId;
-import ara.main.Dto.OrderDto;
 import ara.main.Entity.Orders;
 import ara.main.Repositories.OrdersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +18,15 @@ public class OrdersService implements CRUDInterface<Orders>{
     private GeneratorId generatorId;
     @Override
     public ResponseEntity<String> register(Orders order) {
-        if (!ordersRepository.existsById(order.getIdOrder())){
-            ResponseEntity.ok("Guardado Correctamente"+saveOrder(order));
+        if (!ordersRepository.existsById(order.getIdOrders())){
+            return ResponseEntity.ok("Guardado Correctamente"+saveOrder(order));
         }
         return ResponseEntity.badRequest().body("Ya existe una orden asociada a ese Id");
     }
 
     @Override
     public ResponseEntity<String> modify(Orders order) {
-        if (ordersRepository.existsById(order.getIdOrder())){
+        if (ordersRepository.existsById(order.getIdOrders())){
             ResponseEntity.ok("Modificado Correctamente"+saveOrder(order));
         }
         return ResponseEntity.badRequest().body("No existe una orden asociada a ese Id");
@@ -44,9 +43,10 @@ public class OrdersService implements CRUDInterface<Orders>{
     protected String saveOrder(Orders order){
         String Id=generatorId.IdGenerator();
         var orders=Orders.builder()
-                .idOrder(Id)
-                .payment(order.getPayment())
+                .idOrders(Id)
                 .totalPrice(order.getTotalPrice())
+                .statePayment(3)
+                .identification(order.getIdentification())
                 .build();
         ordersRepository.save(orders);
         return Id;

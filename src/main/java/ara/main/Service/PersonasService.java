@@ -42,6 +42,7 @@ public class PersonasService {
                     .email(request.getEmail())
                     .password(request.getPassword())
                     .role(request.getRole())
+                    .dni(request.getDni())
                     .build();
             personRepository.save(user);
             return ResponseEntity.ok("El usuario fue registrado con exito");

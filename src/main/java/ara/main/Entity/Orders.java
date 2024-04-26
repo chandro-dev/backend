@@ -15,9 +15,11 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Orders {
     @Id
-    @Column(name = "id_order")
-    private String idOrder;
+    @Column(name = "id_orders")
+    private String idOrders;
     @Column(name = "total_price")
     private double totalPrice;
-    private String payment;
+    @Column(name = "state_payment")
+    private int statePayment;
+    private String identification;
 }
