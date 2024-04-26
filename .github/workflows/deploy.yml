@@ -32,17 +32,6 @@ jobs:
     runs-on: self-hosted
     needs: build
     steps:
-      - name: Check if Docker image needs to be built
-        id: check_changes
-        run: |
-          git fetch
-          CHANGED_FILES=$(git diff HEAD^ --name-only)
-          if [[ "$CHANGED_FILES" == *"Dockerfile"* || "$CHANGED_FILES" == *"docker-compose.yml"* ]]; then
-            echo "::set-output name=build_image::true"
-          else
-            echo "::set-output name=build_image::false"
-          fi
-
       - name: Download JAR artifact
         uses: actions/download-artifact@v2
         with:
@@ -50,13 +39,8 @@ jobs:
           path: /home/gitactions/contenedores/springBoot/
 
       - name: Build and update Docker image if necessary
-        if: steps.check_changes.outputs.build_image == 'true'
         run: |
           cd /home/gitactions/contenedores/springBoot
           docker-compose down
           docker-compose build
           docker-compose up -d
-      - name: Skip Docker image build if not necessary
-        if: steps.check_changes.outputs.build_image == 'false'
-        run: |
-          echo "No changes in Dockerfile or docker-compose.yml. Skipping Docker image build."
