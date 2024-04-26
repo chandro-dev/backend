@@ -42,5 +42,6 @@ jobs:
         run: |
           cd /home/gitactions/contenedores/springBoot
           docker-compose down
+          docker build -t springboot-app .
           docker-compose build
           docker-compose up -d
