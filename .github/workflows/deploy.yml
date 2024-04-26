@@ -32,6 +32,16 @@ jobs:
     runs-on: self-hosted
     needs: build
     steps:
+      - name: Check if Docker image needs to be built
+        id: check_changes
+        run: |
+          git fetch
+          CHANGED_FILES=$(git diff HEAD^ --name-only)
+          if [[ "$CHANGED_FILES" == *"Dockerfile"* || "$CHANGED_FILES" == *"docker-compose.yml"* ]]; then
+            echo "::set-output name=build_image::true"
+          else
+            echo "::set-output name=build_image::false"
+          fi
       - name: Remove existing JAR artifact
         run: rm -f /home/gitactions/contenedores/springBoot/main-0.0.1-SNAPSHOT.jar
 
@@ -42,12 +52,13 @@ jobs:
           path: /home/gitactions/contenedores/springBoot/
 
 
-      - name: Build Docker image
+      - name: Build and update Docker image if necessary
+        if: steps.check_changes.outputs.build_image == 'true'
         run: |
           cd /home/gitactions/contenedores/springBoot
-          docker build -t springboot-app .
-
-      - name: Run Docker Compose
-        run: |
-          cd /home/gitactions/contenedores/springBoot
+          docker-compose down
+          docker-compose build
           docker-compose up -d
+        else
+            echo "No changes in Dockerfile or docker-compose.yml. Skipping Docker image build."
+        fi
