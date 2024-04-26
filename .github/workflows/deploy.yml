@@ -42,15 +42,12 @@ jobs:
           else
             echo "::set-output name=build_image::false"
           fi
-      - name: Remove existing JAR artifact
-        run: rm -f /home/gitactions/contenedores/springBoot/main-0.0.1-SNAPSHOT.jar
 
       - name: Download JAR artifact
         uses: actions/download-artifact@v2
         with:
           name: spring-boot-jar
           path: /home/gitactions/contenedores/springBoot/
-
 
       - name: Build and update Docker image if necessary
         if: steps.check_changes.outputs.build_image == 'true'
@@ -59,6 +56,7 @@ jobs:
           docker-compose down
           docker-compose build
           docker-compose up -d
-        else
-            echo "No changes in Dockerfile or docker-compose.yml. Skipping Docker image build."
-        fi
+      - name: Skip Docker image build if not necessary
+        if: steps.check_changes.outputs.build_image == 'false'
+        run: |
+          echo "No changes in Dockerfile or docker-compose.yml. Skipping Docker image build."
