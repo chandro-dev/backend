@@ -31,13 +31,15 @@ public class HttpSecurityConfig {
             "/swagger-ui/**",
             "/webjars/**",
             "/swagger-ui.html",
-            "/auth/authenticate",
+            "/auth/**",
             "/Brand/**",
             "/Product/**",
             "/Category/**",
             "/error",
             "/images/**",
-            "/personas/**","/Oauth/**"};
+            "/personas/**",
+            "/Oauth/**",
+            "/Orders/**"};
     @Bean
     @Order(1)
     public SecurityFilterChain securityFilterOauth(HttpSecurity http) throws Exception {

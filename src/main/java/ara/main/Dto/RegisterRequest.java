@@ -22,4 +22,5 @@ public class RegisterRequest {
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
+    private String dni;
 }

@@ -22,4 +22,6 @@ public class Payment {
     private Date realizationDate;
     private String identification;
     private String mail;
+    @Column(name = "id_orders")
+    private String idOrder;
 }

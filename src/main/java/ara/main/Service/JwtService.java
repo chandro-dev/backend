@@ -6,11 +6,15 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.Map;
+import java.util.function.Function;
 
 @Service
 public class JwtService {
@@ -57,4 +61,25 @@ public class JwtService {
                 .parseSignedClaims(jwt)
                 .getPayload();
     }
+    private boolean isTokenExpired(String token) {
+        //Extraccion de la fecha de expiracion del token
+        return extractClaim(token, Claims::getExpiration)
+                .before(new Date());
+    }
+    public String extractUsername(String token) {
+        return extractClaim(token, Claims::getSubject);
+    }
+    public ResponseEntity<Boolean> isTokenValid(String token, String usernamePerson) {
+        final String username = extractUsername(token);
+        if((username.equals(usernamePerson)) && !isTokenExpired(token)){
+            return ResponseEntity.ok(true);
+        }else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
+        }
+    }
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = getBody(token);
+        return claimsResolver.apply(claims);
+    }
+
 }

@@ -1,5 +1,6 @@
 package ara.main.Controller;
 import ara.main.Dto.AuthenticationResponse;
+import ara.main.Dto.RegisterGoogleResponse;
 import ara.main.Dto.util.Role;
 import ara.main.Service.AuthenticationService;
 import ara.main.Entity.persons;
@@ -24,7 +25,7 @@ public class OAuth2Controller {
         return oAuth2Service.getUserInfo(principal);
     }
     @GetMapping("/register")
-    public ResponseEntity<String> register(@AuthenticationPrincipal OAuth2User principal){
+    public ResponseEntity<RegisterGoogleResponse> register(@AuthenticationPrincipal OAuth2User principal){
         return oAuth2Service.registerUser(principal);
     }
     @PostMapping("/login")

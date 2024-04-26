@@ -1,7 +1,9 @@
 package ara.main.Service;
 
+import ara.main.Config.GeneratorId;
 import ara.main.Dto.PersonsDto;
 import ara.main.Dto.RegisterRequest;
+import ara.main.Dto.UpdatedRegisterRequest;
 import ara.main.Entity.persons;
 import ara.main.Repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PersonasService {
@@ -18,6 +19,8 @@ public class PersonasService {
     private PersonRepository personRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private GeneratorId generatorId;
 
     public ResponseEntity<String> register(RegisterRequest request){
         try {
@@ -33,7 +36,7 @@ public class PersonasService {
                 return  ResponseEntity.badRequest().body("Contraseña Vacia");
             }
             var user = persons.builder()
-                    .identification(request.getIdentification())
+                    .identification(generatorId.generatorNumericId())
                     .name(request.getName())
                     .secondName(request.getSecondLastname())
                     .lastname(request.getLastname())
@@ -42,6 +45,7 @@ public class PersonasService {
                     .email(request.getEmail())
                     .password(request.getPassword())
                     .role(request.getRole())
+                    .dni(request.getDni())
                     .build();
             personRepository.save(user);
             return ResponseEntity.ok("El usuario fue registrado con exito");
@@ -71,5 +75,26 @@ public class PersonasService {
                     .build();
             return ResponseEntity.ok(profile);
         }
+    }
+    public ResponseEntity<String> continueRegister(UpdatedRegisterRequest request){
+        if (personRepository.existsById(request.getIdentification())){
+            persons person=personRepository.findById(request.getIdentification()).orElse(null);
+            assert person != null;
+            var personRegister = persons.builder()
+                    .identification(request.getIdentification())
+                    .name(person.getName())
+                    .secondName(person.getSecondLastname())
+                    .lastname(person.getLastname())
+                    .secondLastname(person.getSecondLastname())
+                    .username(request.getUsername())
+                    .email(person.getEmail())
+                    .password(person.getPassword())
+                    .role(person.getRole())
+                    .dni(request.getDni())
+                    .build();
+            personRepository.save(personRegister);
+            return ResponseEntity.ok("Modificado Correctamente");
+        }
+        return ResponseEntity.badRequest().body("No se encontro la identificacion");
     }
 }

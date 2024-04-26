@@ -1,6 +1,7 @@
 package ara.main.Service;
 
 import ara.main.Dto.AuthenticationResponse;
+import ara.main.Dto.RegisterGoogleResponse;
 import ara.main.Dto.RegisterRequest;
 import ara.main.Dto.util.Role;
 import ara.main.Entity.persons;
@@ -25,7 +26,7 @@ public class OAuth2Service {
         return ResponseEntity.ok("hola: " + email + "! Tu email es: " + principal.toString());
     }
 
-    public ResponseEntity<String> registerUser(@AuthenticationPrincipal OAuth2User principal){
+    public ResponseEntity<RegisterGoogleResponse> registerUser(@AuthenticationPrincipal OAuth2User principal){
         RegisterRequest persona = new RegisterRequest();
         String[] nombre= principal.getAttribute("name").toString().split(" ");
         String[] apellido= principal.getAttribute("family_name").toString().split(" ");
@@ -36,7 +37,12 @@ public class OAuth2Service {
         persona.setSecondLastname(apellido[1]);
         persona.setIdentification(principal.getAttribute("sub"));
         persona.setRole(Role.CUSTOMER);
-        return personasService.register(persona);
+        String message= String.valueOf(personasService.register(persona));
+        var response = RegisterGoogleResponse.builder()
+                .message(message)
+                .idGoogle(principal.getAttribute("sub"))
+                .build();
+        return ResponseEntity.ok(response);
     }
 
     public  ResponseEntity<AuthenticationResponse> loginUser( String principal) {
