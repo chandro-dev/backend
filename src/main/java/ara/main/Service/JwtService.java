@@ -69,6 +69,10 @@ public class JwtService {
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
+    private String extractName(String token){
+        Claims claims= getBody(token);
+        return claims.get("name").toString();
+    }
     public ResponseEntity<Boolean> isTokenValid(String token, String usernamePerson) {
         final String username = extractUsername(token);
         if((username.equals(usernamePerson)) && !isTokenExpired(token)){
@@ -77,6 +81,16 @@ public class JwtService {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
         }
     }
+
+    public ResponseEntity<Boolean> isTokenValidWithGoogle(String token, String namePerson) {
+        final String name = extractName(token);
+        if((name.equals(namePerson)) && !isTokenExpired(token)){
+            return ResponseEntity.ok(true);
+        }else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
+        }
+    }
+
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = getBody(token);
         return claimsResolver.apply(claims);
