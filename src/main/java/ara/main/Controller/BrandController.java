@@ -27,4 +27,8 @@ public class BrandController {
     public ResponseEntity<List<Product>> getProductbyBrand(@PathVariable int id) {
         return brandService.getToCBrand(id);
     }
+    @GetMapping("/checkpoint")
+    public ResponseEntity<String> checkpoint() {
+        return ResponseEntity.ok("Check");
+    }
 }
