@@ -2,6 +2,7 @@ package ara.main.Config;
 
 import org.springframework.context.annotation.Configuration;
 
+import java.math.BigInteger;
 import java.util.Random;
 
 @Configuration
@@ -16,5 +17,16 @@ public class GeneratorId {
             cadena.append(String.valueOf(randomNumber)).append(randomChar);
         }
         return cadena.toString();
+    }
+
+    public String generatorNumericId(){
+        Random random = new Random();
+        StringBuilder cadena= new StringBuilder();
+        for (int i = 0; i < 21; i++) {
+            int randomNumber = random.nextInt(10);
+            cadena.append(String.valueOf(randomNumber));
+        }
+        return cadena.toString();
+
     }
 }

@@ -1,5 +1,6 @@
 package ara.main.Service;
 
+import ara.main.Config.GeneratorId;
 import ara.main.Dto.PersonsDto;
 import ara.main.Dto.RegisterRequest;
 import ara.main.Dto.UpdatedRegisterRequest;
@@ -18,6 +19,8 @@ public class PersonasService {
     private PersonRepository personRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private GeneratorId generatorId;
 
     public ResponseEntity<String> register(RegisterRequest request){
         try {
@@ -33,7 +36,7 @@ public class PersonasService {
                 return  ResponseEntity.badRequest().body("Contraseña Vacia");
             }
             var user = persons.builder()
-                    .identification(request.getIdentification())
+                    .identification(generatorId.generatorNumericId())
                     .name(request.getName())
                     .secondName(request.getSecondLastname())
                     .lastname(request.getLastname())
