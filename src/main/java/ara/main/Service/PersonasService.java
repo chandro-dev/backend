@@ -11,7 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PersonasService {
@@ -75,14 +74,22 @@ public class PersonasService {
         }
     }
     public ResponseEntity<String> continueRegister(UpdatedRegisterRequest request){
-        if (personRepository.existByEmail(request.getEmail())){
-            var person = persons.builder()
+        if (personRepository.existsById(request.getIdentification())){
+            persons person=personRepository.findById(request.getIdentification()).orElse(null);
+            assert person != null;
+            var personRegister = persons.builder()
                     .identification(request.getIdentification())
+                    .name(person.getName())
+                    .secondName(person.getSecondLastname())
+                    .lastname(person.getLastname())
+                    .secondLastname(person.getSecondLastname())
                     .username(request.getUsername())
+                    .email(person.getEmail())
+                    .password(person.getPassword())
+                    .role(person.getRole())
                     .dni(request.getDni())
-                    .email(request.getEmail())
                     .build();
-            personRepository.save(person);
+            personRepository.save(personRegister);
             return ResponseEntity.ok("Modificado Correctamente");
         }
         return ResponseEntity.badRequest().body("No se encontro la identificacion");

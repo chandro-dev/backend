@@ -11,5 +11,4 @@ public class UpdatedRegisterRequest {
     private String identification;
     private String username;
     private String dni;
-    private String email;
 }
