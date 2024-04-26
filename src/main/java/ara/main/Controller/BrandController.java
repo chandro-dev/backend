@@ -29,6 +29,6 @@ public class BrandController {
     }
     @GetMapping("/checkpoint")
     public ResponseEntity<String> checkpoint() {
-        return ResponseEntity.ok("Check");
+        return ResponseEntity.ok("Check1");
     }
 }
