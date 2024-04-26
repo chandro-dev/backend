@@ -31,9 +31,9 @@ public class OrderDetailsService implements CRUDInterface<OrderDetails>{
             //Creo la orden
             service.setIdOrder(generatorId.IdGenerator());
             var order=Orders.builder()
-                    .idOrder(service.getIdOrder())
-                    .payment("")
+                    .idOrders(service.getIdOrder())
                     .totalPrice(service.getAmount())
+                    .statePayment(3)
                     .build();
             ordersService.saveOrder(order);
             orderDetailsRepository.saveOrderDetails(service);
