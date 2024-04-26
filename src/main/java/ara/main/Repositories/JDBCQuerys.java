@@ -1,5 +1,6 @@
 package ara.main.Repositories;
 
+import ara.main.Entity.OrderDetails;
 import ara.main.Entity.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -33,6 +34,22 @@ public class JDBCQuerys {
                 return product;
             });
             return ListProduct;
+        }catch (Exception e){
+            return null;
+        }
+    }
+
+    public List<BigInteger> getMostPurchased(String identfication){
+        try{
+            String sql= """
+                    SELECT id_product FROM order_details
+                    where id_order=(
+                    	SELECT id_orders FROM orders
+                    	where identification = ?
+                    )
+                    """;
+            List<BigInteger> product= jdbcTemplate.query(sql,new Object[] { identfication },(resultSet,rowNum)-> BigInteger.valueOf(resultSet.getLong("id_product")));
+            return product;
         }catch (Exception e){
             return null;
         }

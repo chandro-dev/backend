@@ -94,4 +94,19 @@ public class ProductService implements CRUDInterface<Product> {
             return ResponseEntity.badRequest().body(null);
         }
     }
+    public  ResponseEntity<List<Product>> findMostPurchasedProduct(String dni){
+        if (dni==null){
+            return getAll();
+        }
+        List<BigInteger> listQuery=jdbcQuerys.getMostPurchased(dni);
+        if (listQuery.isEmpty()){
+            return getAll();
+        }else{
+            List<Product> products = new java.util.ArrayList<>(List.of());
+            for (BigInteger item: listQuery){
+                products.add(productRepository.findById(item).orElse(null));
+            }
+            return ResponseEntity.ok(products);
+        }
+    }
 }

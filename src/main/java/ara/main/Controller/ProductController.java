@@ -39,4 +39,8 @@ public class ProductController {
     public ResponseEntity<Product>findProductid(@PathVariable String id){
         return productService.findProductid(id);
     }
+    @GetMapping("/person/{id}")
+    public ResponseEntity<List<Product>>findMostPurchased(@PathVariable String id){
+        return productService.findMostPurchasedProduct(id);
+    }
 }

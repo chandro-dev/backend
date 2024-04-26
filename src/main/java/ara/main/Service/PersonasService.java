@@ -2,6 +2,7 @@ package ara.main.Service;
 
 import ara.main.Dto.PersonsDto;
 import ara.main.Dto.RegisterRequest;
+import ara.main.Dto.UpdatedRegisterRequest;
 import ara.main.Entity.persons;
 import ara.main.Repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,5 +73,18 @@ public class PersonasService {
                     .build();
             return ResponseEntity.ok(profile);
         }
+    }
+    public ResponseEntity<String> continueRegister(UpdatedRegisterRequest request){
+        if (personRepository.existByEmail(request.getEmail())){
+            var person = persons.builder()
+                    .identification(request.getIdentification())
+                    .username(request.getUsername())
+                    .dni(request.getDni())
+                    .email(request.getEmail())
+                    .build();
+            personRepository.save(person);
+            return ResponseEntity.ok("Modificado Correctamente");
+        }
+        return ResponseEntity.badRequest().body("No se encontro la identificacion");
     }
 }
