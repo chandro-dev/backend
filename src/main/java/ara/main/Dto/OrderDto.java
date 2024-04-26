@@ -9,8 +9,6 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 public class OrderDto {
-    private String idOrder;
-    private int totalPrice;
-    private String payment;
     private List<OrderDetails> totalProducts;
+    private String token;
 }
