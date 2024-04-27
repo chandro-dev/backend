@@ -34,7 +34,11 @@ import io.swagger.v3.oas.annotations.servers.Server;
                 @Server(
                         description = "PROD ENV",
                         url = "https://Jetcheck.com/home"
-                )
+                ),
+                @Server(
+                        description = "rpi",
+                        url = "http://192.168.1.59:8081"
+                ),
         },
         security = {
                 @SecurityRequirement(
