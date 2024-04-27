@@ -32,9 +32,11 @@ public class PersonasService {
             if(request.getPassword() !=null){
                 String encodedPassword = passwordEncoder.encode(request.getPassword());
                 request.setPassword(encodedPassword);
-            }else{
-                return  ResponseEntity.badRequest().body("Contraseña Vacia");
             }
+            //Contraseñas vacias
+            /*else{
+                return  ResponseEntity.badRequest().body("Contraseña Vacia");
+            }*/
             var user = persons.builder()
                     .identification(generatorId.generatorNumericId())
                     .name(request.getName())
