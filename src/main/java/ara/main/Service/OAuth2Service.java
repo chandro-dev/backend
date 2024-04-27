@@ -26,20 +26,19 @@ public class OAuth2Service {
         return ResponseEntity.ok("hola: " + email + "! Tu email es: " + principal.toString());
     }
 
-    public ResponseEntity<RegisterGoogleResponse> registerUser(String principal,String name,String email){
+    public ResponseEntity<RegisterGoogleResponse> registerUser(persons principal){
         RegisterRequest persona = new RegisterRequest();
-        String[] nombre= name.toString().split(" ");
-        persona.setEmail(email);
-        persona.setName(nombre[0]);
-        persona.setSecondName(nombre[1]);
-        persona.setLastname(nombre[2]);
-        persona.setSecondLastname(nombre[3]);
-        persona.setIdentification(principal);
+        persona.setEmail(principal.getEmail());
+        persona.setName(principal.getName());
+        persona.setSecondName(principal.getSecondName());
+        persona.setLastname(principal.getLastname());
+        persona.setSecondLastname(principal.getSecondLastname());
+        persona.setIdentification(principal.getIdentification());
         persona.setRole(Role.CUSTOMER);
         String message= String.valueOf(personasService.register(persona));
         var response = RegisterGoogleResponse.builder()
                 .message(message)
-                .idGoogle(principal)
+                .idGoogle(principal.getIdentification())
                 .build();
         return ResponseEntity.ok(response);
     }
