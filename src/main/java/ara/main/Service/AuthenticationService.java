@@ -30,7 +30,7 @@ public class AuthenticationService {
         );
         authenticationManager.authenticate(authenticationToken);
 
-        persons persons = personRepository.findbyEmail(authRequest.getUsername()).get();
+        persons persons = personRepository.findByUsername(authRequest.getUsername()).get();
 
         String jwt=jwtService.generateToken(persons,generateExtraClaims(persons));
         return new AuthenticationResponse(jwt);
