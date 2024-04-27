@@ -24,7 +24,7 @@ public class OAuth2Controller {
     public ResponseEntity<String> getUserInfo(@AuthenticationPrincipal OAuth2User principal) {
         return oAuth2Service.getUserInfo(principal);
     }
-    @GetMapping("/register")
+    @PostMapping("/register")
     public ResponseEntity<RegisterGoogleResponse> register(@RequestBody String principal, String name,String email){
         return oAuth2Service.registerUser(principal,name,email);
     }
