@@ -69,11 +69,11 @@ public class JwtService {
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
-    public ResponseEntity<Boolean> isTokenValid(String token, String usernamePerson) {
-        final String username = extractUsername(token);
-        if((username.equals(usernamePerson)) && !isTokenExpired(token)){
+    public ResponseEntity<Boolean> isTokenValid(String token) {
+        final String username = extractUsername(token); // Extrae el nombre de usuario del token
+        if (username != null && !isTokenExpired(token)) { // Verifica si el nombre de usuario no es nulo y el token no ha caducado
             return ResponseEntity.ok(true);
-        }else {
+        } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
         }
     }

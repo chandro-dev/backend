@@ -20,7 +20,8 @@ public class HttpSecurityConfig {
     private AuthenticationProvider authenticationProvider;
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
-    private static final String[] WHITE_LIST_URL = {"/api/v1/auth/**",
+    private static final String[] WHITE_LIST_URL = {
+            "/api/v1/auth/**",
             "/v2/api-docs",
             "/v3/api-docs",
             "/v3/api-docs/**",
@@ -31,7 +32,7 @@ public class HttpSecurityConfig {
             "/swagger-ui/**",
             "/webjars/**",
             "/swagger-ui.html",
-            "/auth/**",
+            "/auth/authenticate",
             "/Brand/**",
             "/Product/**",
             "/Category/**",
@@ -40,7 +41,7 @@ public class HttpSecurityConfig {
             "/personas/**",
             "/Oauth/**",
             "/Orders/**"};
-    @Bean
+   /* @Bean
     @Order(1)
     public SecurityFilterChain securityFilterOauth(HttpSecurity http) throws Exception {
         http.csrf(csrfConfig -> csrfConfig.disable())
@@ -49,9 +50,9 @@ public class HttpSecurityConfig {
                     authConfig.requestMatchers(WHITE_LIST_URL).permitAll();
                 }).oauth2Login(withDefaults());
         return http.build();
-    }
+    }*/
     @Bean
-    @Order(2)
+    //@Order(2)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrfConfig -> csrfConfig.disable())
 
