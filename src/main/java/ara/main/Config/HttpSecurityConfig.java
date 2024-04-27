@@ -32,7 +32,7 @@ public class HttpSecurityConfig {
             "/swagger-ui/**",
             "/webjars/**",
             "/swagger-ui.html",
-            "/auth/authenticate",
+            "/auth/**",
             "/Brand/**",
             "/Product/**",
             "/Category/**",
