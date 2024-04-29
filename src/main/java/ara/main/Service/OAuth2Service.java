@@ -35,12 +35,34 @@ public class OAuth2Service {
         persona.setSecondLastname(principal.getSecondLastname());
         persona.setIdentification(principal.getIdentification());
         persona.setRole(Role.CUSTOMER);
-        String message= String.valueOf(personasService.register(persona));
-        var response = RegisterGoogleResponse.builder()
-                .message(message)
-                .idGoogle(principal.getIdentification())
-                .build();
-        return ResponseEntity.ok(response);
+        ResponseEntity<String> message= personasService.register(persona);
+        if(message.getStatusCode().value()==200){
+            var response = RegisterGoogleResponse.builder()
+                    .message(message.getBody())
+                    .idGoogle(principal.getIdentification())
+                    .build();
+            return ResponseEntity.status(message.getStatusCode()).body(
+                    response
+            );
+        }else{
+            if(message.getStatusCode().value()==450){
+                var response = RegisterGoogleResponse.builder()
+                        .message(message.getBody())
+                        .idGoogle(principal.getIdentification())
+                        .build();
+                return ResponseEntity.status(message.getStatusCode()).body(
+                        response);}
+                else{
+                    var response = RegisterGoogleResponse.builder()
+                            .message(message.getBody())
+                            .idGoogle(principal.getIdentification())
+                            .build();
+                    return ResponseEntity.status(message.getStatusCode()).body(
+                            response
+                    );
+                }
+        }
+
     }
 
     public  ResponseEntity<AuthenticationResponse> loginUser( String principal) {
