@@ -45,6 +45,14 @@ jobs:
 
   deploy:
     runs-on: self-hosted
+    env:
+      DB: ${{ secrets.DB }}
+      USERDB: ${{ secrets.USERDB }}
+      KEYDB: ${{ secrets.KEYDB }}
+      S3ACCESKEY: ${{ secrets.S3ACCESKEY }}
+      S3SECRETKEY: ${{ secrets.S3SECRETKEY }}
+      OAUTH2CLIENTID: ${{ secrets.OAUTH2CLIENTID }}
+      OAUTH2CLIENTSECRETID: ${{ secrets.OAUTH2CLIENTSECRETID }}
     needs: build
     steps:
       - name: Download JAR artifact
