@@ -27,7 +27,15 @@ jobs:
           java-version: '20'
 
       - name: Build with Maven
-        run: mvn -B clean package -DskipTests --file pom.xml
+        run: |
+          echo "DB: $DB"
+          echo "USERDB: $USERDB"
+          echo "KEYDB: $KEYDB"
+          echo "S3ACCESKEY: $S3ACCESKEY"
+          echo "S3SECRETKEY: $S3SECRETKEY"
+          echo "OAUTH2CLIENTID: $OAUTH2CLIENTID"
+          echo "OAUTH2CLIENTSECRETID: $OAUTH2CLIENTSECRETID"
+          mvn -B clean package -DskipTests --file pom.xml
 
       - name: Upload JAR artifact
         uses: actions/upload-artifact@v2
