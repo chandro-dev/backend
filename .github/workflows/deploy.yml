@@ -8,7 +8,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    env:
+      DB: ${{ secrets.DB }}
+      USERDB: ${{ secrets.USERDB }}
+      KEYDB: ${{ secrets.KEYDB }}
+      S3ACCESKEY: ${{ secrets.S3ACCESKEY }}
+      S3SECRETKEY: ${{ secrets.S3SECRETKEY }}
+      OAUTH2CLIENTID: ${{ secrets.OAUTH2CLIENTID }}
+      OAUTH2CLIENTSECRETID: ${{ secrets.OAUTH2CLIENTSECRETID }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
