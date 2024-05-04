@@ -24,8 +24,8 @@ public class AuthenticationController {
         return ResponseEntity.ok(jwtDto);
     }
     @GetMapping("/tokenValid")
-    public ResponseEntity<Boolean> tokenIsValid(@RequestParam String token, @RequestParam String username) {
-        return jwtService.isTokenValid(token,username);
+    public ResponseEntity<Boolean> tokenIsValid(@RequestParam String token) {
+        return jwtService.isTokenValid(token);
     }
 
     @GetMapping("/tokenGoogle")

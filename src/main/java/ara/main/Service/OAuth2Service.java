@@ -26,23 +26,43 @@ public class OAuth2Service {
         return ResponseEntity.ok("hola: " + email + "! Tu email es: " + principal.toString());
     }
 
-    public ResponseEntity<RegisterGoogleResponse> registerUser(@AuthenticationPrincipal OAuth2User principal){
+    public ResponseEntity<RegisterGoogleResponse> registerUser(persons principal){
         RegisterRequest persona = new RegisterRequest();
-        String[] nombre= principal.getAttribute("name").toString().split(" ");
-        String[] apellido= principal.getAttribute("family_name").toString().split(" ");
-        persona.setEmail(principal.getAttribute("email"));
-        persona.setName(nombre[0]);
-        persona.setSecondName(nombre[1]);
-        persona.setLastname(apellido[0]);
-        persona.setSecondLastname(apellido[1]);
-        persona.setIdentification(principal.getAttribute("sub"));
+        persona.setEmail(principal.getEmail());
+        persona.setName(principal.getName());
+        persona.setSecondName(principal.getSecondName());
+        persona.setLastname(principal.getLastname());
+        persona.setSecondLastname(principal.getSecondLastname());
+        persona.setIdentification(principal.getIdentification());
         persona.setRole(Role.CUSTOMER);
-        String message= String.valueOf(personasService.register(persona));
-        var response = RegisterGoogleResponse.builder()
-                .message(message)
-                .idGoogle(principal.getAttribute("sub"))
-                .build();
-        return ResponseEntity.ok(response);
+        ResponseEntity<String> message= personasService.register(persona);
+        if(message.getStatusCode().value()==200){
+            var response = RegisterGoogleResponse.builder()
+                    .message(message.getBody())
+                    .idGoogle(principal.getIdentification())
+                    .build();
+            return ResponseEntity.status(message.getStatusCode()).body(
+                    response
+            );
+        }else{
+            if(message.getStatusCode().value()==450){
+                var response = RegisterGoogleResponse.builder()
+                        .message(message.getBody())
+                        .idGoogle(principal.getIdentification())
+                        .build();
+                return ResponseEntity.status(message.getStatusCode()).body(
+                        response);}
+                else{
+                    var response = RegisterGoogleResponse.builder()
+                            .message(message.getBody())
+                            .idGoogle(principal.getIdentification())
+                            .build();
+                    return ResponseEntity.status(message.getStatusCode()).body(
+                            response
+                    );
+                }
+        }
+
     }
 
     public  ResponseEntity<AuthenticationResponse> loginUser( String principal) {

@@ -24,19 +24,20 @@ public class PersonasService {
 
     public ResponseEntity<String> register(RegisterRequest request){
         try {
-            if (personRepository.existsByUsername(request.getUsername()) && personRepository.existsById(request.getIdentification())){
-
-                return ResponseEntity.badRequest().body("Ya existe este usuario");
+            if (personRepository.existsByUsername(request.getUsername()) && personRepository.existsById(request.getIdentification()) || personRepository.existsByEmail(request.getEmail())){
+                return ResponseEntity.status(450).body("Ya existe este usuario");
             }
             //Enconded password
             if(request.getPassword() !=null){
                 String encodedPassword = passwordEncoder.encode(request.getPassword());
                 request.setPassword(encodedPassword);
-            }else{
-                return  ResponseEntity.badRequest().body("Contraseña Vacia");
             }
+            //Contraseñas vacias
+            /*else{
+                return  ResponseEntity.badRequest().body("Contraseña Vacia");
+            }*/
             var user = persons.builder()
-                    .identification(generatorId.generatorNumericId())
+                    .identification(request.getIdentification().isEmpty()? generatorId.generatorNumericId(): request.getIdentification())
                     .name(request.getName())
                     .secondName(request.getSecondLastname())
                     .lastname(request.getLastname())

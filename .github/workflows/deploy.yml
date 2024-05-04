@@ -20,7 +20,8 @@ jobs:
           java-version: '20'
 
       - name: Build with Maven
-        run: mvn -B clean package -DskipTests --file pom.xml
+        run: |
+          mvn -B clean package -DskipTests --file pom.xml
 
       - name: Upload JAR artifact
         uses: actions/upload-artifact@v2
@@ -32,22 +33,16 @@ jobs:
     runs-on: self-hosted
     needs: build
     steps:
-      - name: Remove existing JAR artifact
-        run: rm -f /home/gitactions/contenedores/springBoot/main-0.0.1-SNAPSHOT.jar
-
       - name: Download JAR artifact
         uses: actions/download-artifact@v2
         with:
           name: spring-boot-jar
           path: /home/gitactions/contenedores/springBoot/
 
-
-      - name: Build Docker image
+      - name: Build and update Docker image if necessary
         run: |
           cd /home/gitactions/contenedores/springBoot
+          docker-compose down
           docker build -t springboot-app .
-
-      - name: Run Docker Compose
-        run: |
-          cd /home/gitactions/contenedores/springBoot
+          docker-compose build
           docker-compose up -d

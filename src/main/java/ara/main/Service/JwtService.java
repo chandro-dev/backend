@@ -62,23 +62,27 @@ public class JwtService {
                 .getPayload();
     }
     private boolean isTokenExpired(String token) {
-        //Extraccion de la fecha de expiracion del token
         return extractClaim(token, Claims::getExpiration)
                 .before(new Date());
     }
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
+
     private String extractName(String token){
         Claims claims= getBody(token);
         return claims.get("name").toString();
     }
     public ResponseEntity<Boolean> isTokenValid(String token, String usernamePerson) {
         final String username = extractUsername(token);
-        if((username.equals(usernamePerson)) && !isTokenExpired(token)){
+        if (username != null ) {
             return ResponseEntity.ok(true);
-        }else {
+        } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
+        }
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
+
         }
     }
 
