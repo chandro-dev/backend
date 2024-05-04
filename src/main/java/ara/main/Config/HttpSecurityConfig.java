@@ -40,8 +40,10 @@ public class HttpSecurityConfig {
             "/images/**",
             "/personas/**",
             "/Oauth/**",
-            "/Orders/**"};
-   /* @Bean
+
+            "/Orders/**",
+            "/ordersdetails/**"};
+    @Bean
     @Order(1)
     public SecurityFilterChain securityFilterOauth(HttpSecurity http) throws Exception {
         http.csrf(csrfConfig -> csrfConfig.disable())

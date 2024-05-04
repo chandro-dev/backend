@@ -33,13 +33,12 @@ public class AuthenticationService {
         persons persons = personRepository.findByUsername(authRequest.getUsername()).get();
 
         String jwt=jwtService.generateToken(persons,generateExtraClaims(persons));
-        return new AuthenticationResponse(jwt);
+        return new AuthenticationResponse(jwt, persons.getUsername());
     }
     public AuthenticationResponse loginOauth(String id) {
         persons persona = personRepository.findById(id).get();
         String jwt=jwtService.generateToken(persona,generateExtraClaims(persona));
-        return new AuthenticationResponse(jwt);
-
+        return new AuthenticationResponse(jwt, persona.getName());
     }
         private Map<String,Object> generateExtraClaims(persons persons) {
         Map<String,Object> extraClaims= new HashMap<>();

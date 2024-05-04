@@ -27,4 +27,9 @@ public class AuthenticationController {
     public ResponseEntity<Boolean> tokenIsValid(@RequestParam String token) {
         return jwtService.isTokenValid(token);
     }
+
+    @GetMapping("/tokenGoogle")
+    public ResponseEntity<Boolean> tokenIsValidWithGoogle(@RequestParam String token, @RequestParam String name) {
+        return jwtService.isTokenValidWithGoogle(token,name);
+    }
 }
