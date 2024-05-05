@@ -63,8 +63,8 @@ public class PersonasService {
         }
 
     }
-    public ResponseEntity<PersonsDto> getUser(String username){
-        persons user= personRepository.findByUsername(username).orElse(null);
+    public ResponseEntity<PersonsDto> getId(String id){
+        persons user= personRepository.findById(id).orElse(null);
         if (user==null){
            return ResponseEntity.badRequest().body(new PersonsDto(null,null,null,null));
         }else{
