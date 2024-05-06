@@ -24,8 +24,18 @@ public class PersonasService {
 
     public ResponseEntity<String> register(RegisterRequest request){
         try {
-            if (!personRepository.existsByEmail(request.getEmail())){
+            if (personRepository.existsByEmail(request.getEmail())){
                 return ResponseEntity.status(450).body("Ya existe este usuario");
+            }
+            if (personRepository.existsById(request.getIdentification())){
+                return ResponseEntity.status(450).body("Ya existe este usuario");
+            }
+            if(request.getUsername()!=null){
+                if(!request.getUsername().isEmpty()){
+                    if (personRepository.existsByEmail(request.getUsername())){
+                        return ResponseEntity.status(450).body("Ya existe este usuario");
+                    }
+                }
             }
             //Enconded password
             if(request.getPassword() !=null){
