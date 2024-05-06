@@ -24,6 +24,7 @@ public class PersonasService {
 
     public ResponseEntity<String> register(RegisterRequest request){
         try {
+            System.out.print(request.getEmail());
             if ( personRepository.existsByEmail(request.getEmail())){
                 return ResponseEntity.status(450).body("Ya existe este usuario");
             }
