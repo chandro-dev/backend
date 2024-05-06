@@ -88,10 +88,16 @@ public class JwtService {
     }
 
     public ResponseEntity<Boolean> isTokenValidWithGoogle(String token) {
-        if( !isTokenExpired(token)){
-            return ResponseEntity.ok(true);
-        }else {
+        try{final String username = extractID(token);
+
+            if (username != null ) {
+                return ResponseEntity.ok(true);
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
+            }
+        }catch(Exception e){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
+
         }
     }
 
