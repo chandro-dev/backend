@@ -24,7 +24,6 @@ public class PersonasService {
 
     public ResponseEntity<String> register(RegisterRequest request){
         try {
-            System.out.print(request.getEmail());
             if (!personRepository.existsByEmail(request.getEmail())){
                 return ResponseEntity.status(450).body("Ya existe este usuario");
             }
@@ -49,6 +48,7 @@ public class PersonasService {
                     .role(request.getRole())
                     .dni(request.getDni())
                     .build();
+            System.out.print(user);
             personRepository.save(user);
             return ResponseEntity.ok("El usuario fue registrado con exito");
         }
