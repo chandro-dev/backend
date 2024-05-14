@@ -76,7 +76,7 @@ public class JwtService {
     public ResponseEntity<Boolean> isTokenValid(String token) {
 
         try{
-            final String username = extractUsername(token);
+            final String username = extractID(token);
             if (username != null ) {
                 return ResponseEntity.ok(true);
             } else {

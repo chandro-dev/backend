@@ -29,7 +29,6 @@ public class PersonasController {
     @GetMapping("/info")
     public ResponseEntity<PersonsDto> getProfile(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader){
         String token = authorizationHeader.replace("Bearer ", "");
-        System.out.print(token);
         if(jwtService.isTokenValid(token).getBody()){
             return personasService.getId(jwtService.extractID(token));
         }else{
