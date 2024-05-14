@@ -3,15 +3,19 @@ package ara.main.Service;
 import ara.main.Config.GeneratorId;
 import ara.main.Dto.PersonsDto;
 import ara.main.Dto.RegisterRequest;
+import ara.main.Dto.ResetPasswordRequest;
 import ara.main.Dto.UpdatedRegisterRequest;
 import ara.main.Entity.persons;
+import ara.main.Repositories.JDBCQuerys;
 import ara.main.Repositories.PersonRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class PersonasService {
@@ -21,6 +25,10 @@ public class PersonasService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private GeneratorId generatorId;
+    @Autowired
+    private JDBCQuerys jdbcQuerys;
+    @Autowired
+    private JwtService jwtService;
 
     public ResponseEntity<String> register(RegisterRequest request){
         try {
@@ -37,7 +45,7 @@ public class PersonasService {
                 return  ResponseEntity.badRequest().body("Contraseña Vacia");
             }*/
             var user = persons.builder()
-                    .identification(request.getIdentification().isEmpty()? generatorId.generatorNumericId(): request.getIdentification())
+                    .identification(generatorId.generatorNumericId())
                     .name(request.getName())
                     .secondName(request.getSecondLastname())
                     .lastname(request.getLastname())
@@ -97,5 +105,28 @@ public class PersonasService {
             return ResponseEntity.ok("Modificado Correctamente");
         }
         return ResponseEntity.badRequest().body("No se encontro la identificacion");
+    }
+    public ResponseEntity<String> resetPassword(ResetPasswordRequest passwordRequest){
+        String username = jwtService.extractUsername(passwordRequest.getToken());
+        String nowPassword = jdbcQuerys.getPasswordByUsername(username);
+        if (!personRepository.existsById(passwordRequest.getIdentification())){
+            return ResponseEntity.badRequest().body("Identificacion no encontrada");
+        }
+        if (passwordEncoder.matches(passwordRequest.getPassword(), nowPassword)){
+            if (!Objects.equals(passwordRequest.getNewPassword(), passwordRequest.getConfirmNewPassword())){
+                return ResponseEntity.badRequest().body("Las contraseñas no coinciden");
+            }else{
+                String encodedPassword = passwordEncoder.encode(passwordRequest.getConfirmNewPassword());
+                passwordRequest.setConfirmNewPassword(encodedPassword);
+                int valurResponse = jdbcQuerys.updatePassword(passwordRequest);
+                if (valurResponse>0){
+                    return ResponseEntity.ok("Contraseña actualizada correctamente");
+                }else{
+                    return ResponseEntity.badRequest().body("La contraseña no pudo ser actualizada");
+                }
+            }
+        }else{
+            return ResponseEntity.badRequest().body("Contraseña antigua incorrecta");
+        }
     }
 }

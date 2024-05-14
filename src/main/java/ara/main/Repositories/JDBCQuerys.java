@@ -1,8 +1,10 @@
 package ara.main.Repositories;
 
+import ara.main.Dto.ResetPasswordRequest;
 import ara.main.Entity.OrderDetails;
 import ara.main.Entity.Product;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -52,6 +54,28 @@ public class JDBCQuerys {
             return product;
         }catch (Exception e){
             return null;
+        }
+    }
+    public int updatePassword(ResetPasswordRequest request){
+        try {
+            String sql= """
+                    UPDATE persons
+                    SET password=?
+                    WHERE identification = ?
+                    """;
+            int value=jdbcTemplate.update(sql,request.getConfirmNewPassword(),request.getIdentification());
+            System.out.println(value);
+            return value;
+        }catch (Exception e){
+            throw new RuntimeException("Hubo en error en la llamada al metodo");
+        }
+    }
+    public String getPasswordByUsername(String username){
+        String sql = "SELECT password FROM persons WHERE username = ?";
+        try {
+            return jdbcTemplate.queryForObject(sql, new Object[]{username}, String.class);
+        } catch (EmptyResultDataAccessException e) {
+            return "El usuario no existe";
         }
     }
 }

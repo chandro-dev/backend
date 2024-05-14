@@ -73,13 +73,14 @@ public class JwtService {
         Claims claims= getBody(token);
         return claims.get("name").toString();
     }
-    public ResponseEntity<Boolean> isTokenValid(String token, String usernamePerson) {
-        final String username = extractUsername(token);
-        if (username != null ) {
-            return ResponseEntity.ok(true);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
-        }
+    public ResponseEntity<Boolean> isTokenValid(String token) {
+        try{
+            final String username = extractUsername(token);
+            if (username != null ) {
+                return ResponseEntity.ok(true);
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
+            }
         }catch(Exception e){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
 

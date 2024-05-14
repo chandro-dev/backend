@@ -40,7 +40,6 @@ public class HttpSecurityConfig {
             "/images/**",
             "/personas/**",
             "/Oauth/**",
-
             "/Orders/**",
             "/ordersdetails/**"};
     @Bean
@@ -52,7 +51,7 @@ public class HttpSecurityConfig {
                     authConfig.requestMatchers(WHITE_LIST_URL).permitAll();
                 }).oauth2Login(withDefaults());
         return http.build();
-    }*/
+    }
     @Bean
     //@Order(2)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
