@@ -111,6 +111,7 @@ public class PersonasService {
         String nowPassword = jdbcQuerys.getPasswordByUsername(username);
         if (!personRepository.existsById(passwordRequest.getIdentification())){
             return ResponseEntity.badRequest().body("Identificacion no encontrada");
+
         }
         if (passwordEncoder.matches(passwordRequest.getPassword(), nowPassword)){
             if (!Objects.equals(passwordRequest.getNewPassword(), passwordRequest.getConfirmNewPassword())){
