@@ -1,9 +1,6 @@
 package ara.main.Controller;
 
-import ara.main.Dto.PersonsDto;
-import ara.main.Dto.RegisterGoogleResponse;
-import ara.main.Dto.RegisterRequest;
-import ara.main.Dto.UpdatedRegisterRequest;
+import ara.main.Dto.*;
 import ara.main.Entity.persons;
 import ara.main.Service.JwtService;
 import ara.main.Service.PersonasService;
@@ -42,5 +39,9 @@ public class PersonasController {
     @PutMapping("/continueRegister")
     public ResponseEntity<String> continueRegister(@RequestBody UpdatedRegisterRequest request){
         return personasService.continueRegister(request);
+    }
+    @PutMapping("/resetPassword")
+    public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequest request){
+        return personasService.resetPassword(request);
     }
 }
