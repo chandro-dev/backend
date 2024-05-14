@@ -56,14 +56,14 @@ public class JDBCQuerys {
             return null;
         }
     }
-    public int updatePassword(ResetPasswordRequest request){
+    public int updatePassword(String confirmPassword,String identification){
         try {
             String sql= """
                     UPDATE persons
                     SET password=?
                     WHERE identification = ?
                     """;
-            int value=jdbcTemplate.update(sql,request.getConfirmNewPassword(),request.getIdentification());
+            int value=jdbcTemplate.update(sql,confirmPassword,identification);
             System.out.println(value);
             return value;
         }catch (Exception e){

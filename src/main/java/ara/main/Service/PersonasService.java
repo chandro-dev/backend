@@ -108,10 +108,10 @@ public class PersonasService {
     }
     public ResponseEntity<String> resetPassword(ResetPasswordRequest passwordRequest){
         String username = jwtService.extractUsername(passwordRequest.getToken());
+        String identification= jwtService.extractID(passwordRequest.getToken());
         String nowPassword = jdbcQuerys.getPasswordByUsername(username);
-        if (!personRepository.existsById(passwordRequest.getIdentification())){
+        if (!personRepository.existsById(identification)){
             return ResponseEntity.badRequest().body("Identificacion no encontrada");
-
         }
         if (passwordEncoder.matches(passwordRequest.getPassword(), nowPassword)){
             if (!Objects.equals(passwordRequest.getNewPassword(), passwordRequest.getConfirmNewPassword())){
@@ -119,7 +119,7 @@ public class PersonasService {
             }else{
                 String encodedPassword = passwordEncoder.encode(passwordRequest.getConfirmNewPassword());
                 passwordRequest.setConfirmNewPassword(encodedPassword);
-                int valurResponse = jdbcQuerys.updatePassword(passwordRequest);
+                int valurResponse = jdbcQuerys.updatePassword(passwordRequest.getConfirmNewPassword(), identification);
                 if (valurResponse>0){
                     return ResponseEntity.ok("Contraseña actualizada correctamente");
                 }else{

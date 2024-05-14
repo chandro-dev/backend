@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResetPasswordRequest {
-    private String identification;
     private String token;
     private String password;
     private String newPassword;
