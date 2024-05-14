@@ -32,8 +32,18 @@ public class PersonasService {
 
     public ResponseEntity<String> register(RegisterRequest request){
         try {
-            if (personRepository.existsByUsername(request.getUsername()) && personRepository.existsById(request.getIdentification()) || personRepository.existsByEmail(request.getEmail())){
+            if (personRepository.existsByEmail(request.getEmail())){
                 return ResponseEntity.status(450).body("Ya existe este usuario");
+            }
+            if (personRepository.existsById(request.getIdentification())){
+                return ResponseEntity.status(450).body("Ya existe este usuario");
+            }
+            if(request.getUsername()!=null){
+                if(!request.getUsername().isEmpty()){
+                    if (personRepository.existsByEmail(request.getUsername())){
+                        return ResponseEntity.status(450).body("Ya existe este usuario");
+                    }
+                }
             }
             //Enconded password
             if(request.getPassword() !=null){
@@ -56,6 +66,7 @@ public class PersonasService {
                     .role(request.getRole())
                     .dni(request.getDni())
                     .build();
+            System.out.print(user);
             personRepository.save(user);
             return ResponseEntity.ok("El usuario fue registrado con exito");
         }
@@ -71,8 +82,8 @@ public class PersonasService {
         }
 
     }
-    public ResponseEntity<PersonsDto> getUser(String username){
-        persons user= personRepository.findByUsername(username).orElse(null);
+    public ResponseEntity<PersonsDto> getId(String id){
+        persons user= personRepository.findById(id).orElse(null);
         if (user==null){
            return ResponseEntity.badRequest().body(new PersonsDto(null,null,null,null));
         }else{

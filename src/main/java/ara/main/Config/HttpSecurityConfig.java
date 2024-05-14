@@ -40,6 +40,7 @@ public class HttpSecurityConfig {
             "/images/**",
             "/personas/**",
             "/Oauth/**",
+            "/auth/tokenValid*/*",
             "/Orders/**",
             "/ordersdetails/**"};
     @Bean

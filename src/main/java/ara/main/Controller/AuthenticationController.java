@@ -7,6 +7,7 @@ import ara.main.Service.AuthenticationService;
 import ara.main.Service.JwtService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,12 +25,14 @@ public class AuthenticationController {
         return ResponseEntity.ok(jwtDto);
     }
     @GetMapping("/tokenValid")
-    public ResponseEntity<Boolean> tokenIsValid(@RequestParam String token) {
+    public ResponseEntity<Boolean> tokenIsValid(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+        String token = authorizationHeader.replace("Bearer ", "");
         return jwtService.isTokenValid(token);
     }
 
     @GetMapping("/tokenGoogle")
-    public ResponseEntity<Boolean> tokenIsValidWithGoogle(@RequestParam String token, @RequestParam String name) {
-        return jwtService.isTokenValidWithGoogle(token,name);
+    public ResponseEntity<Boolean> tokenIsValidWithGoogle(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+        String token = authorizationHeader.replace("Bearer ", "");
+        return jwtService.isTokenValidWithGoogle(token);
     }
 }

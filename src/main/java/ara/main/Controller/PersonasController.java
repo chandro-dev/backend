@@ -2,9 +2,11 @@ package ara.main.Controller;
 
 import ara.main.Dto.*;
 import ara.main.Entity.persons;
+import ara.main.Service.JwtService;
 import ara.main.Service.PersonasService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -14,6 +16,8 @@ import java.util.List;
 public class PersonasController {
     @Autowired
     private PersonasService personasService;
+    @Autowired
+    private JwtService jwtService;
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody @Valid RegisterRequest authRequest){
         return personasService.register(authRequest);
@@ -22,9 +26,15 @@ public class PersonasController {
     public ResponseEntity<List<persons>> getAll(){
         return  personasService.getAll();
     }
-    @GetMapping("/{username}")
-    public ResponseEntity<PersonsDto> getProfile(@PathVariable String username){
-        return personasService.getUser(username);
+    @GetMapping("/info")
+    public ResponseEntity<PersonsDto> getProfile(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader){
+        String token = authorizationHeader.replace("Bearer ", "");
+        System.out.print(token);
+        if(jwtService.isTokenValid(token).getBody()){
+            return personasService.getId(jwtService.extractID(token));
+        }else{
+            return ResponseEntity.notFound().build();
+        }
     }
     @PutMapping("/continueRegister")
     public ResponseEntity<String> continueRegister(@RequestBody UpdatedRegisterRequest request){
