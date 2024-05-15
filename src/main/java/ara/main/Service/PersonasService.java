@@ -108,6 +108,7 @@ public class PersonasService {
     }
     public ResponseEntity<String> resetPassword(ResetPasswordRequest passwordRequest){
         String username = jwtService.extractUsername(passwordRequest.getToken());
+        //declaracion de variables
         String identification= jwtService.extractID(passwordRequest.getToken());
         String nowPassword = jdbcQuerys.getPasswordByUsername(username);
         if (!personRepository.existsById(identification)){
